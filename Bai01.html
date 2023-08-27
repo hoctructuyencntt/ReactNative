@@ -7,6 +7,10 @@
 <link rel="stylesheet" href="font.css">
 <link rel="stylesheet" href="font-awesome.min.css">
 <style>
+  i {
+    color: yellow;
+  }
+
   #myBtn {
     display: none;
     position: fixed;
@@ -233,11 +237,7 @@
             </ul>
           </li>
           <li><a href="#muc3">Cài đặt môi trường phát triển ứng dụng </a>
-            <ul>
-              <li><a href="#muc3_1"> Expo Go</a>
-              <li><a href="#muc3_2">React Native CLI</a>
-            </ul>
-          </li>
+
           <li><a href="#muc4">Tạo một ứng dụng đầu tiên với React Native</a>
             <ul>
               <li><a href="#muc4_1">View</a>
@@ -388,8 +388,30 @@
         hậu về các tính năng mới, buộc chúng ta phải xây dựng các triển khai tùy chỉnh để tương tác với các API mới này
         hoặc đợi cho đến khi React Native lấy lại tính năng tương đương với bản phát hành mới.</p>
       <h4 id="muc3"><b>III. Cài đặt môi trường phát triển ứng dụng</b></h4>
-      <h4 id="muc3_1">Expo Go</h4>
-      <h4 id="muc3_2">React Native CLI</h4>
+      <div class="tab">
+        <button class="tablinks active" onclick="myTab(event, 'expo')">Công cụ Snack và Expo Go</button>
+        <button class="tablinks" onclick="myTab(event, 'cli')">React Native CLI</button>
+      </div>
+      <div id="expo" class="tabcontent" style="display: block;">
+        <ul>
+          <li>Truy cập và tạo một tài khoản tại <a href="https://expo.dev/signup">Expo</a>.
+          <li>Chọn mục <i>Snacks</i> bên góc trái màn hình.
+          <li>Nhấn nút <i>New Snack</i> để tạo một dự án React Native mới.
+          <li>Bắt đầu viết các dòng mã đầu tiên trong tập tin App.js.
+          <li>Thay đổi tên mặc định của Snacks ở góc trái trên màn hình. Nhấn nút <i>Save</i> để lưu.
+          <li>Xem kết quả chế độ <i>Web</i> ở cửa sổ bên phải màn hình. Muốn xem ứng dụng chạy trên thiết bị di động cá
+            nhân thì chọn <i>My Device</i> sẽ hiện mã QR của ứng dụng.
+          <li>Trên điện thoại cá nhân cài đặt phần mềm <a href="https://expo.dev/client">Expo Go</a>. Quét mã QR ứng
+            dụng từ mục <i>My Device</i> ở trên để xem kết quả.
+        </ul>
+      </div>
+      <div id="cli" class="tabcontent">
+        <p>React Native CLI yêu cầu chúng ta cài đặt các môi trường phát triển như <a
+            href="https://developer.android.com/studio">Android Studio</a> hay <a
+            href="https://apps.apple.com/us/app/xcode/id497799835?mt=12">Xcode</a>. Chi tiết về CLI có thể tìm hiểu chi
+          tiết tại <a href="https://reactnative.dev/docs/environment-setup?guide=native&platform=android">React Native
+            Office</a>.</p>
+      </div>
       <h4 id="muc4"><b>IV. Tạo một ứng dụng đầu tiên với React Native</b></h4>
       <h4 id="muc4_1">View</h4>
       <p>Trong quá trình phát triển Android và iOS, một view là một khối xây dựng cơ bản của giao diện người dùng: một
@@ -472,17 +494,22 @@
         chúng ta có thể thêm trạng thái và hơn thế nữa vào các component hàm.</p>
       <p>Ví dụ sau đây được viết theo cả hai cách dùng component</p>
       <div class="tab">
-        <button class="tablinks" onclick="myTab(event, 'Function')">Function Component</button>
+        <button class="tablinks active" onclick="myTab(event, 'Function')">Function Component</button>
         <button class="tablinks" onclick="myTab(event, 'Class')">Class Component</button>
       </div>
-      <div id="Function" class="tabcontent" data-snack-id="@ngocminhtran/hello-function-component"
-        data-snack-platform="web" data-snack-preview="true" data-snack-theme="dark"
-        style="overflow:hidden;background:#F9F9F9;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      <div id="Function" class="tabcontent" style="display: block;">
+        <div data-snack-id="@ngocminhtran/hello-function-component" data-snack-platform="web" data-snack-preview="true"
+          data-snack-theme="dark"
+          style="overflow:hidden;background:#F9F9F9;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+        </div>
       </div>
-      <div id="Class" class="tabcontent" data-snack-id="@ngocminhtran/hello-class-component" data-snack-platform="web"
-        data-snack-preview="true" data-snack-theme="dark"
-        style="overflow:hidden;background:#F9F9F9;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      <div id="Class" class="tabcontent">
+        <div data-snack-id="@ngocminhtran/hello-class-component" data-snack-platform="web" data-snack-preview="true"
+          data-snack-theme="dark"
+          style="overflow:hidden;background:#F9F9F9;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+        </div>
       </div>
+
       <script>
         function myTab(evt, cityName) {
           var i, tabcontent, tablinks;
