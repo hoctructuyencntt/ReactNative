@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html>
+<title>Bài 2: Xây dựng
+  giao diện ứng dụng với React Native</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="w3.css">
+<link rel="stylesheet" href="font.css">
+<link rel="stylesheet" href="font-awesome.min.css">
+<style>
+  i {
+    color: yellow;
+  }
+
+  #myBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: pink;
+    color: black;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 4px;
+  }
+
+  #myBtn:hover {
+    background-color: #555;
+  }
+
+  .w3-main a {
+    background-color: red;
+  }
+
+  .pagination {
+    display: inline-block;
+  }
+
+  .pagination a {
+    color: white;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    background-color: gray;
+  }
+
+  .pagination a.active {
+    background-color: gray;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
+
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Raleway", sans-serif
+  }
+
+
+  table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  table td,
+  table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  /*
+  #tab tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+*/
+  table tr:hover {
+    background-color: #ddd;
+  }
+
+  table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
+  .w3-code a {
+    background-color: transparent;
+    text-decoration: none;
+    color: blue;
+  }
+
+  .video-container {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .video-container::after {
+    padding-top: 56.25%;
+    display: block;
+    content: '';
+  }
+
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<body class="w3-black w3-content" style="max-width:1600px">
+
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <div class="w3-container">
+      <a href="#" style="text-decoration: none;" onclick="w3_close()"
+        class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="Đóng"> X </a>
+      <!--<h4><b>Giáo trình</b></h4>-->
+    </div>
+    <div class="w3-bar-block">
+      <a href="Bai01.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 1: Làm quen
+        React
+        Native</a>
+      <a href="Baitap01.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài tập Bài 1</a>
+      <a href="Bai02.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal">Bài 2: Xây dựng
+        giao diện ứng dụng với React Native</a>
+      <a href="Baitap02.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài tập Bài 2</a>
+      <a href="Bai03.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 3: Sử dụng các API
+        (Application Programming Interface)</a>
+      <a href="Baitap03.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài tập Bài 3</a>
+      <a href="Bai04.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 4: Xây dựng một ứng dụng
+        hoàn chỉnh với React Native</a>
+      <a href="Baitap04.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài tập Bài 4</a>
+      <a href="Thamkhao.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Nguồn tham
+        khảo</a>
+    </div>
+  </nav>
+
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+    title="close side menu" id="myOverlay">=</div>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main" style="margin-left:300px">
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Lên đầu trang</button>
+    <!-- Header -->
+    <header id="portfolio">
+      <!--<a href="#"><img src="/w3images/avatar_g2.jpg" style="width:65px;"
+          class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>-->
+      <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()">=</span>
+      <div class="w3-container">
+        <h1><b>Bài 2: Xây dựng
+            giao diện ứng dụng với React Native</b></h1>
+        <div class="w3-section w3-bottombar"></div>
+      </div>
+    </header>
+
+    <div class="w3-container w3-padding-large" style="margin-bottom:32px">
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Bai01.html">Bài trước</a>
+          <a href="Bai03.html">Bài tiếp theo</a>
+        </div>
+      </div>
+      <div class="w3-code notranslate htmlHigh">
+        <h4>Nội dung bài học</h4>
+        <ol>
+          <li><a href="#muc1">Sử dụng kiểu (Styles)</a>
+            <ul>
+              <li><a href="#muc1_1">Kiểu (Styles)</a>
+              <li><a href="#muc1_2">Áp dụng kiểu trong ứng dụng</a>
+              <li><a href="#muc1_3">Tổ chức kiểu trong ứng dụng</a>
+              <li><a href="#muc1_4">Áp dụng kiểu đến các component</a>
+                <ul>
+                  <li><a href="#muc1_4_1">View</a>
+                  <li><a href="#muc1_4_2">Text</a>
+                  <li><a href="#muc1_4_3">Kiểu (style) và kích thước (size) theo nền tảng (platform)</a>
+                  <li><a href="#muc1_4_4">Tạo bóng đổ (Drop Shadow)</a>
+                  <li><a href="#muc1_4_5">Sử dụng các phép biến đổi (transformations) để di chuyển (move), xoay
+                      (rotate), chia tỷ lệ (scale) và nghiêng (skew) các component</a>
+                  <li><a href="#muc1_4_6">Tạo bố cục các component dùng Flexbox</a>
+                </ul>
+            </ul>
+          </li>
+          <li><a href="#muc2">Thành phần điều hướng (Navigation)</a>
+            <ul>
+              <li><a href="#muc2_1"> Kiểu Tab (Tab Navigation)</a>
+              <li><a href="#muc2_2">Kiểu Stack (Stack Navigation) </a>
+              <li><a href="#muc2_3">Kiểu Drawer (Drawer Navigation) </a>
+            </ul>
+          </li>
+          <li><a href="#muc3">Hiệu ứng động (Animations)</a>
+            <ul>
+              <li><a href="#muc3_1">Animated API</a>
+              <li><a href="#muc3_2">Tạo hoạt ảnh đơn giản </a>
+              <li><a href="#muc3_3">Hoạt ảnh mở rộng ô nhập dữ liệu từ biểu mẫu (form)</a>
+              <li><a href="#muc3_4">Tạo hoạt ảnh loading</a>
+              <li><a href="#muc3_5">Tạo nhiều hoạt ảnh đồng thời</a>
+              <li><a href="#muc3_6">Tạo một chuỗi hoạt ảnh (a animated sequence)</a>
+              <li><a href="#muc3_7">Hoạt ảnh stagger (xếp (nan hoa) chéo cánh sẻ, xếp chữ chi)</a>
+            </ul>
+          </li>
+          <li><a href="#muc4">Sử dụng thư viện Redux</a>
+            <ul>
+              <li><a href="#muc4_1"></a>
+              <li><a href="#muc4_2"></a>
+              <li><a href="#muc4_3"></a>
+              <li><a href="#muc4_4"></a>
+            </ul>
+          </li>
+        </ol>
+      </div>
+      <h4 id="muc1"><b>I. Sử dụng kiểu (Styles)</b></h4>
+      <p>Một phần quan trọng trong ứng dụng di động nói chung hay ứng dụng trong React Native nói riêng là thiết kế giao
+        diện (UI). Tương tự CSS trong thiết kế giao diện trang web, kiểu (styles) trong React Native được sử dụng trong
+        thiết kế giao diện các component. Trong phần này chúng ta sẽ tìm hiểu tổng quan, cách tổ chức, cách áp dụng các
+        component kiểu (styling componens) trong ứng dụng React Native.</p>
+      <h4 id="muc1_1"><b>Kiểu (Styles)</b></h4>
+      <p> Với React Native, chúng ta tạo kiểu cho ứng dụng của mình bằng JavaScript. Tất cả các component cốt lõi chấp
+        nhận
+        một thuộc tính có tên là <i>style</i>. Các tên và giá trị kiểu tương tự với cách CSS hoạt động trên web, ngoại
+        trừ các
+        tên được viết bằng cách sử dụng cách viết hoa <u>camelCase</u>, ví dụ: thuộc tính màu nền trong sẽ được viết là
+        <i>backgroundColor</i> chứ không phải <i>background-color</i> như trong CSS.
+      </p>
+      <p>Thuộc tính <i>style</i> có thể là một đối tượng JavaScript và chúng ta sẽ sử dụng dạng style này trong các ví
+        dụ minh
+        họa. Khi một component ngày càng phức tạp, phương thức <i>StyleSheet.create</i> được ưu tiên sử dụng để định
+        nghĩa các
+        <i>style</i> tại một vị trí nào đó, điều này giúp mã trở nên gọn gàng hơn.
+      </p>
+      <h4 id="muc1_2"><b>Áp dụng kiểu trong ứng dụng</b></h4>
+      <p>Kiểu có thể được áp dụng trực tiếp đến các component dùng thuộc tính style (hình thức áp dụng nội tuyến –
+        inline)
+        như ví dụ sau:</p>
+      <div data-snack-id="@ngocminhtran/kieuinline" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Chúng ta áp dụng trực tiếp các định nghĩa kiểu <i>marginLeft: 20</i>, <i>marginTop: 20</i> đến component View
+        và các định
+        nghĩa
+        kiểu <i>fontSize: 18</i>, <i>color: 'red'</i> đến component <i>Text</i> thông qua thuộc tính <i>style</i>.</p>
+      <p>Một cách áp dụng kiểu khác là định nghĩa biến kiểu dùng phương thức <i>StyleSheet.create</i> như sau:</p>
+      <div data-snack-id="@ngocminhtran/kieucreate" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Có thể thấy, các kiểu như container, message, warning được định nghĩa tương tự đối tượng (object) trong
+        JavaScript.</p>
+      <p>Các kiểu được áp dụng bằng cách tham chiếu đến biến <i>styles</i> thông qua dấu chấm, ví dụ
+        <i>styles.container</i>.
+        Nếu áp
+        dụng
+        nhiều kiểu cùng lúc, có thể sử dụng cấu trúc mảng chứa các tham chiếu đến biến <i>styles</i>, ví dụ
+        <i>[styles.message, styles.warning]</i>
+      </p>
+      <h4 id="muc1_3"><b>Tổ chức kiểu trong ứng dụng</b></h4>
+      <p>Kiểu trong ứng dụng React Native có thể được tổ chức theo 2 cách:</p>
+      <p>Khai báo trong cùng tập tin với component (như các ví dụ trên): Lợi ích chính của cách này là component và các
+        kiểu của nó được gói
+        gọn hoàn toàn trong một tập tin. Component này sau đó có thể được di chuyển hoặc sử dụng ở bất cứ đâu trong ứng
+        dụng. Đây là một cách tiếp cận phổ biến đối trong thiết kế component từ cộng đồng React Native.</p>
+      <p>Khai báo trong tập tin riêng: Hình sau đây minh họa cách tổ chức này</p>
+      <img class="center" src="img/bai02_1.png">
+      <p>Thư mục COMPONENTA chứa một tập tin định nghĩa component (COMPONENTA.JS) và tập tin khai báo kiểu cho component
+        này (STYLES.JS). Tương tự thư mục COMPONENTB chứa một tập tin định nghĩa component (COMPONENTB.JS) và tập tin
+        khai
+        báo kiểu cho component này (STYLES.JS).</p>
+      <p>Ví dụ trong thư mục <i>components</i> tạo một tập tin tên <i>styles.js</i> chứa nội dung sau:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/5a5b8acc0729bbd0219ee86ab83e9354.js"></script>
+      <p>Chúng ta sẽ áp dụng các kiểu từ tập tin <i>styles.js</i> đến component, trong <i>App.js</i> viết lại nội dung
+        sau:</p>
+      <div data-snack-id="@ngocminhtran/kieuexternal" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Chúng ta đã làm quen với kiểu, cách áp dụng, tổ chức. Sau đây chúng ta sẽ đi vào chi tiết cách áp dụng kiểu đến
+        các component trong React Native.</p>
+      <h4 id="muc1_4"><b>Áp dụng kiểu đến các component</b></h4>
+      <h4 id="muc1_4_1"><b>View</b></h4>
+      <p>Với các View component, chúng ta sẽ áp dụng các kiểu dựa trên các khía cạnh sau:</p>
+      <ul>
+        <li><a href="#back">Màu nền(Background color)</a>
+        <li><a href="#border">Viền (Border)</a>
+        <li><a href="#pm">padding, margin</a>
+        <li><a href="#pos">Vị trí (Position)</a>
+      </ul>
+      <h5 id="back"><b>Màu nền (Background color)</b></h5>
+      <p>Áp dụng kiểu màu nền bằng cách sử dụng thuộc tính backgroundColor. React Native hỗ trợ một số định dạng màu như
+        rgb, alpha, hue, saturation, lightness như bảng sau:</p>
+      <img class="center" src="img/bai02_2.png">
+      <p>Ví dụ:</p>
+      <div data-snack-id="@ngocminhtran/backgroundcolor01" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Chúng ta có hai View lồng nhau</p>
+      <script src="https://gist.github.com/hoctructuyencntt/be17963acca2e554081fab1b6ff5f12f.js"></script>
+      <p>View bên ngoài tham chiếu kiểu <i>container</i> và View bên trong tham chiếu kiểu <i>cardContainer</i>. Các
+        kiểu như sau:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/eadd0aa2e37a44848a6d83615e320d18.js"></script>
+      <p><i>container</i> dùng <i>flexbox</i> để kiểm soát layout của View, <i>cardContainer</i> thiết lập chiều cao,
+        chiều rộng và màu nền của
+        View.</p>
+      <h5 id="border"><b>Viền (Border)</b></h5>
+      <p>Một trong những thành phần quan trọng của các View component là viền. Các thuộc tính cho kiểu viền bao gồm
+        borderColor (Màu viền), borderStyle (Kiểu viền), borderWidth (Kích cỡ viền), borderRadius (Bo góc viền). Màu và
+        kích cỡ viền có những thuộc tính tương ứng bên trái (left), phải (right), trên (top) và dưới (bottom) của View
+        component bao gồm: borderTopColor, borderRightColor, borderBottomColor, borderLeftColor, borderTopWidth,
+        borderRightWidth, borderBottomWidth, và borderLeftWidth. Bo viền cũng tương tự với các thuộc tính
+        borderTopRightRadius, borderBottomRightRadius, borderBottomLeftRadius, and borderTopLeftRadius. Và chỉ có duy
+        nhất
+        một borderStyle.</p>
+      <p>Ví dụ 1: Tạo các kiểu khung viền</p>
+      <div data-snack-id="@ngocminhtran/border01" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>View Example đầu tiên chúng ta thiết lập giá trị <i>borderWidth</i> đến 1</p>
+      <p>Example tiếp theo, thiết lập giá trị <i>borderWidth</i> đến 3, xóa viền trái (left border) và thiết lập
+        <i>borderLeftWidth</i>
+        đến 0
+      </p>
+      <p>Example thứ 3, thiết lập giá trị <i>borderWidth</i> đến 3, thiết lập màu đỏ đến viền trái (left border) </p>
+      <p>Example thứ 4, thiết lập chỉ viền trái với giá trị <i>borderWidth</i> là 3</p>
+      <p>Example cuối cùng, thiết lập chỉ viền với giá trị <i>borderWidth</i> là 1 và kiểu viền <i>borderStyle</i> đến
+        <i>dash</i> (mặc định
+        là
+        <i>solid</i>)
+      </p>
+      <p>Component Example có thể tái sử dụng với một bộ kiểu mặc định có thể dễ dàng ghi đè bằng cách chuyển vào các
+        thuộc tính kiểu:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/a30647d55becf3f0eee8471f453d76a9.js"></script>
+      <p>Ví dụ 2: dùng <i>borderRadius</i> để tạo các hình dạng</p>
+      <div data-snack-id="@ngocminhtran/border02" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Example 1 là một hình vuông với 4 góc bo tròn.Lưu ý vì dùng mã JavaScript nên khi dùng các ký tự đặc biệt như
+        \n để xuống dòng phải đặt trong cặp ngoặc {} </p>
+      <p>Example 2 là một hình vuông với 2 góc phải bo tròn.</p>
+      <p>Example 3 là một hình vuông với 2 góc đối diện bo tròn.</p>
+      <p> Example 4 là một hình vuông với đường viền bán kính bằng nửa độ dài cạnh.</p>
+      <p> Component <i>CenteredText</i> tái sử dụng để kết xuất các View văn bản đến giữa view cha (Example)</p>
+      <script src="https://gist.github.com/hoctructuyencntt/5292d7d786aa59615aeb85937a12bdd9.js"></script>
+      <p>Component này sử dụng kiểu <i>centeredText</i>:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/0dc2403dfdecbdb76038925e23fa0a0c.js"></script>
+      <p>Layout View tổng quát của ứng dụng sử dụng Flexbox (Chúng ta sẽ tìm hiểu về layout này ở mục bên dưới)</p>
+      <script src="https://gist.github.com/hoctructuyencntt/817d1cad3f44c839a234566866fc1216.js"></script>
+      <p>Ví dụ 3: thêm viền đến Profile Card</p>
+      <div data-snack-id="@ngocminhtran/boder03" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Chú ý cần thêm component <i>Image</i> đến ứng dụng.</p>
+      <h5 id="pm"><b>padding, margin</b></h5>
+      <p>Margin và padding có ý nghĩa tương tự trong CSS. Hình ảnh sau mô tả ý nghĩa của margin và padding:</p>
+      <img class="center" src="img/bai02_3.png">
+      <p>Các thuộc tính liên quan đến margin gồm: margin, marginTop, marginRight, marginBottom, và marginLeft.
+        Các thuộc tính liên quan đến padding gồm: padding, paddingLeft, paddingRight, paddingTop, và paddingBottom.</p>
+      <p>Ví dụ 1: sử dụng margin</p>
+      <div data-snack-id="@ngocminhtran/margin" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Kết quả trên nền Web và iOS:</p>
+      <img class="center" src="img/bai02_4.png">
+      <p>Trên iOS và Android có một chút khác biệt về margin:</p>
+      <img class="center" src="img/bai02_5.png">
+      <p>Sự khác biệt trong trường hợp này là D với giá trị <i>marginLeft</i> và <i>marginTop</i> là âm: iOS hiển thị
+        khi
+        giá trị margin là âm trong khi đó Android sẽ cắt bỏ một phần bởi component cha.</p>
+      <p>Ví dụ 2: sử dụng padding</p>
+      <div data-snack-id="@ngocminhtran/padding" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Kết quả: </p>
+      <img class="center" src="img/bai02_6.png">
+      <p>Tương tự margin, có một sự khác biệt giữa iOS và Android</p>
+      <img class="center" src="img/bai02_7.png">
+      <h5 id="pos"><b>Vị trí (Position)</b></h5>
+      <p>Trong CSS có thuộc tính <i>position</i> cho phép chúng ta định vị các thành phần trên trang web đến bất kỳ vị
+        trí mong
+        muốn nào và trong React Native cũng có thuộc tính kiểu <i>position</i> với tính năng tương tự.</p>
+      <p>Trong CSS có các giá trị khác nhưng trong React Native, giá trị của <i>position</i> là <i>absolute</i> (tuyệt
+        đối) và
+        <i>relative</i>
+        (tương đối). Theo mặc định, tất cả các phần tử được sắp xếp tương đối (relative) với nhau. Nếu <i>postion</i>
+        được đặt
+        thành <i>absolute</i>, thì phần tử được sắp xếp tương đối với phần tử cha. Khi dùng <i>position</i> có giá trị
+        là <i>absolute</i>,
+        các
+        thuộc tính đi kèm theo là <i>top</i>, <i>bottom</i>, <i>left</i> và <i>right</i>.
+      </p>
+      <p>Ví dụ : sử dụng position</p>
+      <div data-snack-id="@ngocminhtran/position" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Một ví dụ hiển thị các khối A, B và C được bố trí tương đối với nhau. Khối D có vị trí tuyệt đối (absolute) tại
+        right: 0 và bottom : 0. Khối E cũng có vị trí tuyệt đối tại right: 0 và bottom: 0, nhưng cha của nó là khối B
+        chứ
+        không phải vùng chứa chính (container), trong khi cha của D là vùng chứa chính.</p>
+      <h4 id="muc1_4_2"><b>Text</b></h4>
+      <p>Các component văn bản (Text) thường đi kèm các thuộc tính kiều liên quan:</p>
+      <ul>
+        <li>color: màu chữ
+        <li>fontFamily: thiết lập font chữ. Chi tiết tham khảo tại <a
+            href="https://github.com/react-native-training/react-native-fonts ">https://github.com/react-native-training/react-native-fonts
+          </a>
+        <li>fontSize: thiết lập kích cỡ chữ. Cỡ chữ mặc định là 14.
+        <li>fontStyle: thiết lập sự in nghiêng của chữ. Gồm 2 giá trị là normal (mặc định) và italic.
+        <li>fontWeight: thiết lập sự tô đậm của chữ. Các giá trị normal, bold, '100', '200', '300', '400', '500', '600',
+          '700', '800', và '900'
+      </ul>
+      <p>Ví dụ</p>
+      <div data-snack-id="@ngocminhtran/text" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Trên iOS và Android có sự khác biệt</p>
+      <img class="center" src="img/bai02_8.png">
+      <p>Ví dụ trên chúng ta cần chú ý một số vấn đề:</p>
+      <p>- import component Platform, Text từ React Naitive.</p>
+      <p>- Platform.OS cung cấp thông tin về nền tảng (Web, iOS hay Android) đang chạy ứng dụng.</p>
+      <p>- Dùng Platform.select để định dạng kiểu trên các nền tảng khác nhau:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/7b363c6f902a1be711ba04a87ce00205.js"></script>
+      <p>Không chỉ có phông chữ hay màu chữ, React Native hỗ trợ các kiểu định dạng khác:</p>
+      <ul>
+        <li>lineHeight: Chiều cao văn bản. Ví dụ: lineHeight: 100
+        <li>textAlign: Căn lề văn bản theo chiều ngang. Các giá trị bao gồm: 'auto', 'center', 'right', 'left', và
+          'justify' ('justify' chỉ dùng cho iOS).
+        <li>textDecorationLine: Thêm các đường thẳng gạch dưới (underline) hay xuyên qua (line through) văn bản. Các giá
+          trị bao gồm: 'none', 'underline', 'linethrough', và 'underline line-through'.
+        <li>textDecorationColor: Chỉ dành riêng cho iOS. Định dạng màu cho textDecorationLine.
+        <li>textDecorationStyle: Chỉ dành riêng cho iOS. Định dạng kiểu cho textDecorationLine với các giá trị: 'solid',
+          'double', 'dotted', và 'dashed'
+        <li>textShadowColor, textShadowOffset, và textShadowRadius: Thêm bóng đến văn bản dựa trên màu, offset và bán
+          kính.
+        <li>letterSpacing: Chỉ dành cho iOS. Xác định khoảng cách giữa các ký tự.
+      </ul>
+      <p>Ví dụ:</p>
+      <div data-snack-id="@ngocminhtran/textenhance" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Kết quả trên iOS và Android có một vài khác biệt:</p>
+      <img class="center" src="img/bai02_9.png">
+      <h4 id="muc1_4_3"><b>Kiểu (style) và kích thước (size) theo nền tảng</b></h4>
+      <p>Chúng ta không viết mã cho một thiết bị duy nhất; chúng ta thậm chí không viết mã cho một hệ điều hành duy
+        nhất.
+        Cái hay của React Native là chúng ta đang sử dụng JavaScript để tạo các ứng dụng có thể chạy trên cả iOS và
+        Android. Nếu chúng ta xem qua tài liệu về React Native, chúng ta sẽ thấy nhiều thành phần có hậu tố là IOS hoặc
+        Android, chẳng hạn như ProgressBarAndroid, ProgressViewIOS và ToolbarAndroid, vì vậy không có gì ngạc nhiên khi
+        kiểu (style) và kích thước (size) cũng phụ thuộc vào các nền tảng.</p>
+      <h5><b>Các đơn vị kích thước cơ bản</b></h5>
+      <p><i>Pixel, px hay có khi gọi là pel (xuất phát từ "picture element"), chúng ta hay gọi là điểm ảnh, có dạng hình
+          vuông.</i></p>
+      <p>Một hình ảnh bitmap mà chúng ta thấy trên màn hình là ma trận hai chiều (2D) của các pixel tạo nên (hay ma trận
+        của các hình vuông nhỏ). Mỗi pixel chiếm 1 vị trí trong ma trận và chứa 1 phần của hình ảnh hiển thị. Mỗi pixel
+        chứa 1 màu duy nhất được phối hợp từ 3 màu cơ bản Red, Green, Blue.</p>
+      <p>Pixel thường được dùng để nói về độ phân giải (resolution) của thiết bị.</p>
+      <p>Ví dụ: Samsung Galaxy S3 có màn hình độ phân giải 1280×720 (Height x Width). Điều này có nghĩa là chiều cao của
+        màn hình Galaxy S3 là 1280 pixels, còn chiều rộng là 720 pixels.</p>
+      <p>Thiết bị có độ phân giải càng cao thì màn hình càng có nhiều pixels. Tuy nhiên điều này chưa nói lên được là
+        màn
+        hình sẽ hiển thị ảnh mịn, đẹp hay không. Điều này tùy thuộc vào diện tích của màn hình, vì vậy pixel không dùng
+        làm đơn vị đo lường kích thước của màn hình thiết bị, nhưng lại được dùng để đo kích thước của ảnh.</p>
+      <p><i>dp, hay dip hay Density-independent Pixels, có khi được gọi là Device-independent Pixels</i></p>
+      <p>Đây là một đơn vị đo chiều dài vật lý cũng giống như inch, cm, mm... mà Google thường áp dụng để đo kích thước
+        màn
+        hình của thiết bị. (Bên iOS dùng pt hay point có khái niệm tương tự với dp – xem bên dưới)</p>
+      <ul>
+        <li>160 dp = 1 inch – điều này có nghĩa 1dp = 1/160 = 0.00625 inch
+        <li>1 dp có thể chứa 1 hay nhiều pixel.
+      </ul>
+      <p><i>DPI – Dots per inch hay PPI – Pixels per inch: là số điểm ảnh (pixels) trên 1 inch của màn hình thiết bị,
+          con số này càng lớn thì màn hình thiết bị
+          hiển thị hình ảnh càng mịn và đẹp.</i></p>
+      <p>Lưu ý dp hay dip không được nhầm lẫn với dpi (dots per inch).</p>
+      <p>Dựa vào dpi người ta chia làm loại màn hình như sau:</p>
+      <ul>
+        <li>small: ldpi (120dpi)
+        <li>normal: mdpi (160dpi)
+        <li>large: hdpi (240dpi)
+        <li>x-large: xhdpi (320dpi).
+      </ul>
+      <p>Với mỗi loại này thì 1 dp tương ứng với số lượng pixels khác nhau, được tính theo công thức:</p>
+      <p><i>px = dp * (dpi / 160)</i></p>
+      <p>Ví dụ với thiết bị có dpi là 320 thì với 10 dp ta có: 10 * (320/160) = 20 px, 1 dp tương đương 2 px.</p>
+      <p><i>PT viết tắt của Point, khái niệm pt tương tự như dp là một đơn vị đo kích thước thực, nhưng khác với dp:</i>
+      </p>
+      <ul>
+        <li>1 pt = 1/72 inch, trong khi 1 dp = 1/160 inch
+        <li>pt thường được dùng trong lập trình iOS.
+      </ul>
+      <p><i>SP – Scale-independent Pixels: Cũng tương tự như dp, nhưng sp thường được dùng cho font size của văn
+          bản.</i></p>
+      <h4 id="muc1_4_4"><b>Tạo bóng đổ (Drop Shadow)</b></h4>
+      <p>Chúng ta có thể tạo hiệu ứng bóng đổ cho các component dùng thuộc tính kiều <i>ShadowPropTypesIOS</i> (cho iOS)
+        và
+        <i>Elevation</i> (Android).
+      </p>
+      <p>Thuộc tính <i>ShadowPropTypesIOS</i> thường đi kèm với các thuộc tính <i>shadowOffset</i>, <i>shadowColor</i>,
+        <i>shadowOpacity</i>,
+        <i>shadowRadius</i>, <i>width</i>, <i>height</i>. Ví dụ sau đây sử dụng <i>ShadowPropTypesIOS</i> với các thuộc
+        tính và giá trị áp dụng cho
+        các View Example 1, 2, 3,...
+      </p>
+      <img class="center" src="img/bai02_10.png">
+      <p>Kết quả</p>
+      <img class="center" src="img/bai02_11.png">
+      <p>Tương ứng với thuộc tính <i>ShadowPropTypesIOS</i> trong iOS, thuộc tính <i>elevation</i> được dùng để tạo bóng
+        đổ trong
+        Android
+        thường đi kèm các thuộc tính <i>color</i>, <i>top</i>, <i>left</i>, <i>elevation</i>. Ví dụ sau đây sử dụng
+        elevation với các thuộc tính và
+        giá trị áp dụng cho các View Example A, B, C,...</p>
+      <img class="center" src="img/bai02_12.png">
+      <p>Kết quả khi hiển thị trên iOS và Android:</p>
+      <img class="center" src="img/bai02_13.png">
+      <p>Trên iOS, <i>elevation</i> bị bỏ qua; tất cả các thành phần giữ nguyên <i>z-order</i>, vì vậy bất kỳ thành phần
+        nào nằm cuối
+        cùng trong bố cục đều ở trên cùng. Trên Android, <i>elevation</i> được sử dụng và <i>z-order</i> được thay đổi;
+        trong ví dụ
+        thứ
+        hai, <i>elevation</i> được đảo ngược, A ở trên cùng.</p>
+      <h4 id="muc1_4_5"><b>Sử dụng các phép biến đổi (transformations) để di chuyển (move), xoay (rotate), chia tỷ lệ
+          (scale) và nghiêng (skew) các component</b></h4>
+      <p>React Native cung cấp thuộc tính <i>transform</i> cho phép chúng ta áp dụng các phép biến đổi để di chuyển
+        component từ
+        vị trí này đến vị trí khác, xoay, chia tỷ lệ hay nghiêng component theo các trục.</p>
+      <p><i>transform là một mảng chứa các thuộc tính tương ứng với các phép biến đổi như sau:</i></p>
+      <p><i>perspective</i>: cung cấp cho một phần tử không gian 3D bằng cách ảnh hưởng đến khoảng cách giữa mặt phẳng z
+        và người dùng.</p>
+      <p><i>translateX</i> và <i>translateY</i>: dịch chuyển một phần tử dọc theo trục x (translateX) hoặc trục y
+        (translateY) từ vị trí hiện tại.</p>
+      <img class="center" src="img/bai02_14.png">
+      <p><i>rotateX</i>, <i>rotateY</i>, và <i>rotateZ</i> (rotate): quay một phần tử theo trục x (rotateX), trục y
+        (rotateY) hay trục z
+        (rotateZ). Hình ảnh chiều quay âm và dương theo các trục:</p>
+      <img class="center" src="img/bai02_15.png">
+      <p>Xoay hình vuông 100 × 100 quanh trục x theo gia số 35°. Sau 90°, có thể nhìn thấy nhãn "ROTATION" xuyên qua
+        phần
+        tử, lộn ngược</p>
+      <img class="center" src="img/bai02_16.png">
+      <p>Xoay hình vuông 100 × 100 theo trục y theo gia số 35°. Sau 90°, nhãn "ROTATION" có thể được nhìn thấy thông qua
+        phần tử, phía sau</p>
+      <img class="center" src="img/bai02_17.png">
+      <p>Xoay hình vuông 100 × 100 quanh trục z theo gia số của 35°. Vòng quay dương theo chiều kim đồng hồ và vòng quay
+        âm
+        là ngược chiều kim đồng hồ</p>
+      <img class="center" src="img/bai02_18.png">
+      <p><i>scale</i>, <i>scaleX</i>, và <i>scaleY</i>: scale nhân kích thước của phần tử với số được truyền cho nó, giá
+        trị mặc định là 1. Để làm cho một phần tử xuất
+        hiện lớn hơn, hãy chuyển một giá trị lớn hơn 1; để làm cho nó xuất hiện nhỏ hơn, chuyển một giá trị nhỏ hơn 1.
+        Phần tử cũng có thể được chia tỷ lệ dọc theo một trục bằng cách sử dụng scaleX hoặc scaleY. scaleX kéo dài phần
+        tử
+        theo chiều ngang dọc theo trục x và scaleY kéo dài phần tử thẳng đứng dọc theo trục y. Xét ví dụ áp dụng scale
+        cho
+        các hình vuông A, B, C, D, E có cùng kích thước:</p>
+      <img class="center" src="img/bai02_19.png">
+      <p>Tất cả các hình vuông bắt đầu có cùng kích thước và hình dạng như A, có tỷ lệ mặc định là 1. B thay đổi tỷ lệ
+        hình
+        vuông theo 0.5 và kết quả là thu nhỏ hình vuông một nửa. C thay đổi tỷ lệ hình vuông theo 2, kết quả là phóng to
+        nó lên gấp đôi. D được kéo dài theo trục x gấp 3 lần. E được kéo dài theo trục y gấp 1.5 lần.</p>
+      <p>Mã chương trình minh họa:</p>
+      <div data-snack-id="@ngocminhtran/transform01" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p><i>skewX</i> và <i>skewY</i>: Thuộc tính skewX làm nghiêng một phần tử dọc theo trục x. Tương tự, thuộc tính
+        skewY làm nghiêng một phần tử dọc theo trục y. Ví dụ như hình sau:</p>
+      <img class="center" src="img/bai02_20.png">
+      <p>Hình vuông A không có phép biến đổi nào được áp dụng cho nó. Hình vuông B bị nghiêng dọc theo trục x 45°. Hình
+        vuông C bị nghiêng dọc theo trục x một góc –45°. Hình vuông D bị nghiêng dọc theo trục y một góc 45°. Hình vuông
+        E
+        bị nghiêng dọc theo trục y một góc –45°.</p>
+      <p>Mã nguồn</p>
+      <div data-snack-id="@ngocminhtran/transform02" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <h4 id="muc1_4_6"><b>Tạo bố cục các component dùng Flexbox</b></h4>
+      <p>React Native cung cấp các thuộc tính cho phép chúng ta tạo các layout (bố cục) flexbox bao gồm: <i>flex</i>,
+        <i>flexDirection</i>, <i>justifyContent</i>, <i>alignItems</i>, <i>alignSelf</i>, và <i>flexWrap</i>. Chúng ta
+        sẽ lần lượt tìm hiểu qua các thuộc
+        tính và ví dụ.
+      </p>
+      <h5><b>flex</b></h5>
+      <p>Thuộc tính <i>flex</i> cho phép một thành phần thay đổi kích thước của nó để lấp đầy không gian của vùng chứa
+        mà nó ở
+        trong. Ví dụ minh họa dùng <i>flex</i></p>
+      <script src="https://gist.github.com/hoctructuyencntt/99a9cc5101b7b1267c3998537e19c3fd.js"></script>
+      <p>Kết quả:</p>
+      <img class="center" src="img/bai02_21.png">
+      <p>A, B có cùng tỉ lệ (1/2) trong không gian cha; C có tỉ lệ 1/3, D là 2/3; E là 1/4, F là 3/4.</p>
+      <h5><b>flexDirection</b></h5>
+      <p>Sử dụng thuộc tính <i>flexDirection</i>, chúng ta có thể thay đổi trục chính của bố cục và do đó thay đổi hướng
+        của bố
+        cục. Có hai giá trị cho <i>flexDirection</i> là <i>row</i> và <i>column</i> (mặc định). Ví dụ thay đổi hướng của
+        các thành phần A, B,... từ ví dụ thuộc tính <i>flex</i> với giá trị <i>row</i>:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/a3b96bf5799b3311f8f68a695578789e.js"></script>
+      <p>Kết quả:</p>
+      <img class="center" src="img/bai02_22.png">
+      <h5><b>justifyContent</b></h5>
+      <p>Thuộc tính này định nghĩa cách không gian được sử dụng xung quanh một component. Các giá trị của
+        <i>justifyContent</i>
+        gồm:
+      </p>
+      <ul>
+        <li>center: căn giữa các thành phần con trong vùng cha
+        <li>flex-start: nhóm các thành phần ở đầu cột flex hoặc hàng, tùy thuộc vào giá trị nào được gán cho
+          flexDirection.
+        <li>flex-end: nhóm các thành phần ở cuối cột flex hoặc hàng, tùy thuộc vào giá trị nào được gán cho
+          flexDirection.
+        <li>space-around: cố gắng phân bổ đều không gian xung quanh mỗi phần tử.
+        <li>space-between: không áp dụng khoảng cách ở đầu hoặc cuối vùng chứa.
+      </ul>
+      <p>Xét đoạn mã ví dụ sau:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/6bf2f53670088829026c9f8c4a25eccd.js"></script>
+      <p>Kết quả</p>
+      <img class="center" src="img/bai02_23.png">
+      <h5><b>alignItems</b></h5>
+      <p>Thuộc tính này căn chỉnh các thành phần con trong một thành phần cha. Giá trị <i>alignItems</i> bao gồm
+        <i>stretch</i>, <i>center</i>,
+        <i>flex-start</i>, và <i>flex-end</i>. Ví dụ áp dụng <i>alignItems</i>
+      </p>
+      <script src="https://gist.github.com/hoctructuyencntt/c2797bc1dde1adbf5671c3eb8e32976c.js"></script>
+      <p>Kết quả</p>
+      <img class="center" src="img/bai02_24.png">
+      <h5><b>alignSelf</b></h5>
+      <p>Chúng ta có thể ghi đè căn chỉnh của vùng chứa cha bằng <i>alignSelf</i>. Về bản chất, <i>alignSelf</i> cung
+        cấp khả năng ghi đè
+        bất kỳ căn chỉnh nào đã được đặt trên vùng chứa cha, vì vậy một đối tượng con có thể được căn chỉnh độc lập với
+        các đối tượng anh em của nó (cùng một vùng chứa cha). Các giá trị cho <i>alignSelf</i> bao gồm <i>auto</i>,
+        <i>stretch</i>, <i>center</i>,
+        <i>flexstart</i>, và <i>flex-end</i>. Chương trình minh họa
+      </p>
+      <div data-snack-id="@ngocminhtran/alignself" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <h5><b>flexWrap</b></h5>
+      <p>Thuộc tính này nhận hai giá trị là <i>nowrap</i> và <i>wrap</i>. Giá trị mặc định là <i>nowrap</i>, nghĩa là
+        các mục sẽ tràn ra khỏi
+        màn hình nếu chúng không vừa. Các mục được cắt bớt và người dùng không thể nhìn thấy chúng. Để khắc phục sự cố
+        này, hãy sử dụng giá trị <i>wrap</i>. Chương trình minh họa</p>
+      <div data-snack-id="@ngocminhtran/flexwrap" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Kết quả</p>
+      <img class="center" src="img/bai02_25.png">
+      <p>Ở màn hình này không có gì đặc biệt xảy ra, nhưng nếu chúng ta thu nhỏ màn hình lại sẽ như sau:</p>
+      <img class="center" src="img/bai02_26.png">
+      <p>Ai từng học qua Excel cũng có trải nghiệm tương tự với việc xử lý dữ liệu tương ứng với kích thước theo ô.</p>
+      <h4 id="muc2"><b>II. Thành phần điều hướng (Navigation)</b></h4>
+      <p>Khung React Native không bao gồm thư viện điều hướng. Khi xây dựng điều hướng trong ứng dụng React Native,
+        chúng
+        ta phải sử dụng thư viện điều hướng của bên thứ ba. Một lựa chọn tốt được khuyên dùng bởi cộng đồng React Native
+        là sử dụng React Navigation làm thư viện điều hướng để xây dựng ứng dụng Reac Native. Chi tiết về thư viện React
+        Navigation tham khảo tại <a
+          href="https://reactnavigation.org/docs/getting-started">https://reactnavigation.org/docs/getting-started</a>
+      </p>
+      <p>Ba loại điều hướng chính điển hình cho các ứng dụng di động: kiểu tab, kiểu stack và kiểu drawer.</p>
+      <h4 id="muc2_1"><b>Kiểu Tab (Tab Navigation)</b></h4>
+      <p>Điều hướng dựa trên Tab thường có các tab ở đầu (top) hoặc cuối (bottom) màn hình; nhấn một tab sẽ đưa bạn đến
+        màn hình tương
+        ứng
+        với tab đó. Nhiều ứng dụng phổ biến như Twitter, sInstagram và Facebook triển khai loại điều hướng này trên các
+        màn
+        hình chính.</p>
+      <p>React Native hỗ trợ các kiểu Tab Navigation là <a
+          href="https://reactnavigation.org/docs/bottom-tab-navigator">Bottom Tabs</a>, <a
+          href="https://reactnavigation.org/docs/material-bottom-tab-navigator">Material Bottom Tabs</a> và <a
+          href="https://reactnavigation.org/docs/material-top-tab-navigator">Material Top Tabs</a>.</p>
+      <p>Ở đây chúng ta sẽ minh họa dùng <a href="https://reactnavigation.org/docs/material-top-tab-navigator">Material
+          Top Tabs</a> nên cần cài các thư viện từ React Navigation:</p>
+      <p><i>npm install @react-navigation/material-top-tabs react-native-tab-view</i></p>
+      <p> import các thư viện từ React Navigation</p>
+      <script src="https://gist.github.com/hoctructuyencntt/1aff7bc908866c9367df2845eee84e46.js"></script>
+      <p>Khởi tạo Tab dùng hàm createMaterialTopTabNavigator()</p>
+      <script src="https://gist.github.com/hoctructuyencntt/2e10d0894ab7b524bed88f386df6cbe0.js"></script>
+      <p>Các View được bao xung quanh bởi NavigationContainer và Tab.Navigator</p>
+      <script src="https://gist.github.com/hoctructuyencntt/08911bebda821a7965ac475b505f8853.js"></script>
+      <p>Chương trình hoàn chỉnh</p>
+      <div data-snack-id="@ngocminhtran/tabnav" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Hiện tại chúng ta đang ở TAB-1. Nhấn Add New Tab sẽ xuất hiện TAB-2. Có thể chuyển đổi qua lại TAB-1 và TAB-2.
+      </p>
+      <p>Chi tiết hơn về kiểu Tab tham khảo tại <a href="https://reactnavigation.org/docs/getting-started">React
+          Navigation Docs</a>.
+      </p>
+
+      <h4 id="muc2_2"><b>Kiểu Stack (Stack Navigation)</b></h4>
+      <p>Điều hướng dựa trên Stack chuyển đổi từ màn hình này sang màn hình khác, thay thế màn hình hiện tại và thường
+        triển khai một số loại chuyển đổi hoạt ảnh. Chúng ta có thể đi lùi hoặc tiếp tục di chuyển về phía trước trong
+        Stack.</p>
+      <p>React Native hỗ trợ kiểu <a href="https://reactnavigation.org/docs/stack-navigator">Stack</a> và <a
+          href="https://reactnavigation.org/docs/native-stack-navigator">Native Stack</a>.</p>
+      <p>Ở dây chúng ta minh họa dùng <a href="https://reactnavigation.org/docs/stack-navigator">Stack</a> nên cần cài
+        các thư viện từ React Navigation:</p>
+      <p><i>npm install @react-navigation/stack</i></p>
+      <p>import các thư viện từ React Navigation</p>
+      <script src="https://gist.github.com/hoctructuyencntt/2496659f0d46e67a86477bd8ad4fbcb4.js"></script>
+      <p>Khởi tạo Tab dùng hàm createStackNavigator()</p>
+      <script src="https://gist.github.com/hoctructuyencntt/174dc1bb9bddd71a796b158bbb9e554f.js"></script>
+      <p>Các View được bao xung quanh bởi NavigationContainer và Stack.Navigator</p>
+      <script src="https://gist.github.com/hoctructuyencntt/f072971db1e5b6e4baf3e2b5e4864cf6.js"></script>
+      <p>Chương trình hoàn chỉnh</p>
+      <div data-snack-id="@ngocminhtran/stacknav" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Nhấn Conference, nhấn nút Back (&lt;--) để trở lại màn hình chính. Tiếp tục nhấn nút Story và nhấn nút Back
+        (&lt;--) để
+        trở lại màn hình chính.</p>
+      <p>Chi tiết hơn về các kiểu Stack tham khảo tại <a href="https://reactnavigation.org/docs/getting-started">React
+          Navigation Docs</a>.
+      </p>
+      <h4 id="muc2_3"><b>Kiểu Drawer (Drawer Navigation)</b></h4>
+      <p>Điều hướng dựa trên <a href="https://reactnavigation.org/docs/drawer-navigator">Drawer</a> thường là menu bên
+        bật ra từ bên trái hoặc bên phải màn hình và hiển thị danh sách các
+        tùy chọn. Khi nhấn một tùy chọn, menu đóng lại và chúng ta được đưa đến màn hình mới.</p>
+      <p>Để dùng Drawer, chúng ta cần cài các thư viện từ React Navigation</p>
+      <p><i>npm install @react-navigation/drawer</i></p>
+      <p>import các thư viện từ React Navigation</p>
+      <script src="https://gist.github.com/hoctructuyencntt/aaf46ba2ac0302fd4f8d343edbc3cab1.js"></script>
+      <p>Khởi tạo Tab dùng hàm createDrawerNavigator()</p>
+      <script src="https://gist.github.com/hoctructuyencntt/82df82f576bd69484d6c6412ef963cfb.js"></script>
+      <p>Các View được bao xung quanh bởi NavigationContainer và Drawer.Navigator</p>
+      <script src="https://gist.github.com/hoctructuyencntt/3b39a9551090ca799acfd63db1123643.js"></script>
+      <p>Chương trình hoàn chỉnh</p>
+      <div data-snack-id="@ngocminhtran/drawernav" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Nhấn vào Open Drawer sẽ xuất hiện menu bên trái màn hình, Chọn một tùy chọn, ví dụ Story, ứng dụng sẽ đóng menu
+        và điều hướng đến màn hình Story.</p>
+      <p>Chi tiết hơn về các kiểu Drawer tham khảo tại <a href="https://reactnavigation.org/docs/getting-started">React
+          Navigation Docs</a>.
+      </p>
+      <h4 id="muc3"><b>III. Hiệu ứng động (Animations)</b></h4>
+      <p>Một trong những điều tuyệt vời về React Native là khả năng dễ dàng tạo hoạt ảnh hay hiệu ứng động (animation)
+        sử
+        dụng Animated API. Hoạt ảnh thường được sử dụng để nâng cao giao diện người dùng và mang lại sống động hơn với
+        thiết kế hiện có của ứng dụng.</p>
+      <h4 id="muc3_1"><b>Animated API</b></h4>
+      <p>Animated API đi kèm với React Native, vì vậy để sử dụng nó, tất cả những gì chúng ta phải làm là import nó
+        giống
+        như bất kỳ API hoặc thành phần React Native nào khác. Khi tạo hoạt ảnh, luôn cần phải thực hiện 4 việc sau đây:
+      </p>
+      <ul>
+        <li>Import Animated API từ React Native.
+        <li>Tạo một giá trị có thể hoạt ảnh bằng cách sử dụng Animated API.
+        <li>Gắn giá trị vào component tương tự kiểu (style).
+        <li>Viết hàm tạo hoạt ảnh.
+      </ul>
+      <p>Sau đây chúng ta sẽ khảo sát chi tiết một số kiểu hoạt ảnh hay hiệu ứng động được dùng trong các ứng dụng React
+        Native.</p>
+      <h4 id="muc3_2"><b>Tạo hoạt ảnh đơn giản </b></h4>
+      <p>Trong chương trình này chúng ta sẽ tạo một hoạt ảnh với margin trên của một hộp hình chữ nhật hay vuông. Mã
+        chương
+        trình</p>
+      <div data-snack-id="@ngocminhtran/simpleanimation" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Nhấn nút ANIMATE BOX để xem hiệu ứng. Một số điều chúng ta đã thực hiện từ chương trình trên:</p>
+      <ul>
+        <li>Import Amimated API: <i>import {...,Animated,...}</i>
+        <li>Tạo một thuộc tính lớp gọi là marginTop và gán nó cho một giá trị hoạt ảnh, chuyển vào giá trị bắt đầu (ở
+          đây là 20): <i>marginTop = new Animated.Value(20);</i>
+        <li>Tạo hàm hoạt ảnh: <i>animate = () => {...}</i>. Ví dụ này sử dụng hàm timing để tạo hiệu ứng động cho một
+          giá trị. Hàm này có hai đối số: một giá trị bắt đầu và một đối tượng cấu hình. Đối tượng cấu hình được chuyển
+          một toValue để đặt giá trị mà hoạt ảnh sẽ tạo hiệu ứng và duration là thời lượng mili giây của hoạt ảnh.
+        <li>Gắn hàm animate vào trình xử lý sự kiện onPress của Button để gọi nó khi người dùng nhấn Button.
+        <li>Dùng component Animated.View để tạo hình vuông thay vì các View thông thường.
+      </ul>
+      <p>Có 4 loại View chúng ta có thể tạo hoạt ảnh ngay lập tức là View, Image, ScrollView và Text.</p>
+      <h4 id="muc3_3"><b>Hoạt ảnh mở rộng ô nhập dữ liệu từ biểu mẫu (form)</b></h4>
+      <p>Một ví dụ khác về việc sử dụng hoạt ảnh trong React Native là mở rộng ô nhập dữ liệu (component TextInput) từ
+        một biều mẫu khi người dùng chọn ô đó. Đoạn mã chương trình:</p>
+      <div data-snack-id="@ngocminhtran/textinputanimation" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Chọn ô nhập dữ liệu để xem hiệu ứng. Một số điều chúng ta đã thực hiện từ chương trình trên:</p>
+      <ul>
+        <li>Import Amimated API và TextInput: <i>import {...,Animated, TextInput...}</i>
+        <li>Tạo một thuộc tính lớp gọi là animatedWidth và gán nó cho một giá trị hoạt ảnh, chuyển vào giá trị bắt đầu
+          (ở đây là 200): <i>animatedWidth = new Animated.Value(200);</i>
+        <li>Tạo hàm hoạt ảnh: <i>animate = (value) => {...}</i>. Ví dụ này sử dụng hàm timing để tạo hiệu ứng động cho
+          một giá trị. Hàm này có hai đối số: một giá trị bắt đầu và một đối tượng cấu hình. Đối tượng cấu hình được
+          chuyển một toValue để đặt giá trị mà hoạt ảnh sẽ tạo hiệu ứng và duration là thời lượng mili giây của hoạt
+          ảnh.
+        <li>Gắn hàm animate vào trình xử lý sự kiện onBlur và onFocus của TextInput để gọi nó khi người dùng kích hoạt
+          sự kiện tương ứng.
+        <li>Gắn giá trị animatedWidth đến Animated.View chứa TextInput.
+      </ul>
+      <h4 id="muc3_4"><b>Tạo hoạt ảnh loading</b></h4>
+      <p>Rất nhiều lần, chúng ta cần tạo hoạt ảnh là các vòng lặp vô hạn, chẳng hạn như chỉ báo tải (loading indicator)
+        hay
+        chỉ báo hoạt động (activity indicator). Chương trình minh họa sau đây tạo một chỉ báo tải (loading indicator):
+      </p>
+      <div data-snack-id="@ngocminhtran/loadinganimation" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Một số chú ý từ đoạn chương trình trên:</p>
+      <ul>
+        <li>Import component Easing cho phép kiểm soát chuyển động của hoạt ảnh. Chương trình trên là kiểm soát độ
+          mượt (smooth) của chuyển động quay tròn: <i>import {
+            Easing, Animated,...}
+          </i>
+        <li>Khởi tạo trạng thái (state) với một giá trị loading kiểu Boolean là true: <i>state = {
+            loading: true
+            }</i>
+        <li>Kích hoạt hoạt ảnh bằng cách gọi hàm this.animate và hàm setTimeout thiết lập giá trị tải thành false trong
+          state sau 2 giây <i>componentDidMount() {
+            this.animate();
+            ...
+            }</i>
+        <li> Khởi tạo giá trị animationRotation ban đầu là 0: <i>animatedRotation = new Animated.Value(0)</i>
+        <li>Tạo một phương thức lớp animate chuyển hàm Animated.timing vào trong và được gọi từ hàm Animated.loop:
+          <i>animate = () => {...}</i>. Chúng ta thiết lập toValue thành 1, duration thành 1800 và easing thành
+          Easing.linear, để tạo ra một chuyển động quay mượt (smooth).
+        <li>Sử dụng giá trị animatedRotation để tạo giá trị xoay mới bằng phương thức interpolate: <i>const rotation =
+            this.animatedRotation.interpolate({...})</i>. Chúng ta chuyển các giá trị bắt đầu (0) và kết thúc (1) trong
+          InputRange; Chuyển các giá trị cho outputRange để inputRange ánh xạ tới: một giá trị ban đầu là 0 độ và giá
+          trị cuối cùng là 360 độ, tạo ra góc xoay 360 độ đầy đủ.
+        <li>Kiểm tra xem giá trị của loading có là true không và phản hồi tương ứng: <i>loading ? (...)</i>. Nếu loading
+          là true, sẽ hiển thị chỉ báo tải xoay; nếu là false, hiển thị thông báo Welcome. Gán biến rotation vào rotate
+          của thuộc tính kiểu transform của Animated.Image.
+      </ul>
+      <h4 id="muc3_5"><b>Tạo nhiều hoạt ảnh đồng thời</b></h4>
+      <p>Thỉnh thoảng chúng ta cần tạo nhiều hoạt ảnh đồng thời. Animated API có phương thức lớp gọi là parallel nhận
+        một
+        mảng các hoạt ảnh để thực hiện cùng lúc.</p>
+      <p>Chương trình sau đây minh họa cách dùng parallel để thực hiện đồng thời 3 hoạt ảnh:</p>
+      <div data-snack-id="@ngocminhtran/parallelanimation" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Trong chương trình trên chúng ta khởi tạo 3 giá trị hoạt ảnh: <i>animatedTitle</i>, <i>animatedSubtitle</i> và
+        <i>animatedButton</i>.
+      </p>
+      <p>Gọi hàm <i>animate</i> từ <i>componentDidMount</i>: <i>componentDidMount() {
+          this.animate();
+          }</i>
+      </p>
+      <p>Hàm <i>animate</i> gọi <i>Animated.parallel</i> và hàm này chuyển 3 hàm <i>Animated.timing</i> để kích hoạt 3
+        hoạt ảnh cùng lúc:
+        <i>animate = () => {...}</i>
+      </p>
+      <p>Đính kèm các giá trị hoạt ảnh đến các component <i>Animated.Text</i>, <i>Animated.View</i>.</p>
+      <h4 id="muc3_6"><b>Tạo một chuỗi hoạt ảnh (a animated sequence)</b></h4>
+      <p>Một chuỗi hoạt ảnh là một loạt các hoạt ảnh diễn ra lần lượt, với mỗi hoạt ảnh chờ hoạt ảnh trước đó hoàn thành
+        trước khi bắt đầu. Chúng ta có thể tạo một chuỗi hoạt ảnh với hàm sequence. Giống như hàm parallel, sequence
+        nhận
+        một mảng các hoạt ảnh.</p>
+      <p>Đoạn chương trình minh họa</p>
+      <div data-snack-id="@ngocminhtran/asequenceanimation" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Một cách tương tự các hiệu ứng hoạt ảnh trên, người học tự tìm hiều ý nghĩa các đoạn mã trong hoạt ảnh này.</p>
+      <h4 id="muc3_7"><b>Hoạt ảnh stagger (xếp (nan hoa) chéo cánh sẻ, xếp chữ chi)</b></h4>
+      <p>Tạo hiệu ứng <i>stagger</i> chúng ta dùng hàm <i>Animated.stagger</i>. Tương tự <i>parallel</i> và
+        <i>sequence</i>, <i>stagger</i>
+        nhận một mảng
+        các
+        hoạt ảnh nhưng khác hai hàm kia, <i>stagger</i> có thêm tham số đầu chỉ thời gian bắt đầu hiệu ứng stagger. Đoạn
+        chương
+        trình minh họa</p>
+      <div data-snack-id="@ngocminhtran/staggeranimation" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Khởi tạo mảng <i>animatedValues</i> chứa 1000 giá trị 0 (dùng <i>for</i>).</p>
+      <p>Tạo một mảng các hoạt ảnh <i>Animated.timing</i> tham chiếu đến các giá trị được tạo trong mảng
+        <i>animatedValues</i>.
+      </p>
+      <p>Gọi hàm <i>Animated.stagger</i> với thời gian bắt đầu là 15ms và mảng các hoạt ảnh.</p>
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Bai01.html">Bài trước</a>
+          <a href="Bai03.html">Bài tiếp theo</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- End page content -->
+  </div>
+
+  <script src="https://www.jdoodle.com/assets/jdoodle-pym.min.js" type="text/javascript"></script>
+  <script>
+    // Script to open and close sidebar
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("myOverlay").style.display = "block";
+    }
+
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("myOverlay").style.display = "none";
+    }
+
+    // Phần button top
+    var mybutton = document.getElementById("myBtn");
+
+
+    window.onscroll = function () { scrollFunction() };
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
+
+
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+
+</body>
+
+</html>
