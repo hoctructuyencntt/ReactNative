@@ -226,7 +226,13 @@
               <li><a href="#muc3_7">Hoạt ảnh stagger (xếp (nan hoa) chéo cánh sẻ, xếp chữ chi)</a>
             </ul>
           </li>
-          
+          <li><a href="#muc4">Sử dụng thư viện Redux</a>
+            <ul>
+              <li><a href="#muc4_1">Các khái niệm cơ bản trong Redux</a>
+              <li><a href="#muc4_2">Sử dụng Redux trong ứng dụng React Native</a>
+              <li><a href="#muc4_3">Tạo ứng dụng BookApp và TodoApp</a>
+            </ul>
+          </li>
         </ol>
       </div>
       <h4 id="muc1"><b>I. Sử dụng kiểu (Styles)</b></h4>
@@ -920,7 +926,8 @@
         các
         hoạt ảnh nhưng khác hai hàm kia, <i>stagger</i> có thêm tham số đầu chỉ thời gian bắt đầu hiệu ứng stagger. Đoạn
         chương
-        trình minh họa</p>
+        trình minh họa
+      </p>
       <div data-snack-id="@ngocminhtran/staggeranimation" data-snack-platform="web" data-snack-preview="true"
         data-snack-theme="dark"
         style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
@@ -931,6 +938,95 @@
         <i>animatedValues</i>.
       </p>
       <p>Gọi hàm <i>Animated.stagger</i> với thời gian bắt đầu là 15ms và mảng các hoạt ảnh.</p>
+      <h4 id="muc4"><b>IV. Sử dụng thư viện Redux</b></h4>
+      <p>Khi xây dựng các ứng dụng React và React Native trong thế giới thực, chúng ta sẽ nhanh chóng biết rằng lớp dữ
+        liệu
+        có thể trở nên phức tạp và không thể quản lý được nếu nó không được xử lý một cách chính xác và có chủ ý. Một
+        cách
+        để xử lý dữ liệu là giữ nó trong trạng thái (state) component và chuyển nó đi khắp nơi như những props. Cách
+        khác
+        là sử dụng một mẫu hoặc thư viện kiến trúc dữ liệu. Phần này đề cập đến thư viện Redux: đó là phương pháp xử lý
+        dữ
+        liệu được áp dụng rộng rãi nhất trong hệ sinh thái React và nó được duy trì bởi Facebook, cùng một nhóm duy trì
+        cả
+        React và React Native.</p>
+      <h4 id="muc4_1">Các khái niệm cơ bản trong Redux</h4>
+      <p>Sau đây là một số khái niệm cơ bản trong Redux chúng ta cần nắm vững:</p>
+      <ul>
+        <li>Store (Kho chứa): Là một đối tượng lưu trữ trạng thái của ứng dụng. Nó được tạo ra bằng cách sử dụng hàm
+          createStore từ Redux. Kho chứa cung cấp các phương thức để truy xuất trạng thái hiện tại, phát đi các hành
+          động
+          (actions) và theo dõi các thay đổi.
+        <li>Actions (Hành động): Là các đối tượng JavaScript đơn giản mô tả các thay đổi trong ứng dụng. Chúng được phát
+          đi
+          bằng cách sử dụng phương thức store.dispatch(). Hành động thường có thuộc tính type để chỉ định loại hành động
+          đang được thực hiện.
+        <li>Reducers (Bộ giảm thiểu): Là các hàm thuần túy mô tả cách trạng thái của ứng dụng thay đổi dựa trên các hành
+          động.
+          Chúng nhận vào trạng thái hiện tại và một hành động, sau đó trả về một trạng thái mới. Reducers được kết hợp
+          thành
+          một reducer gốc bằng cách sử dụng hàm combineReducers từ Redux.
+        <li>Phát đi hành động (Dispatching Actions): Hành động được phát đi tới kho chứa bằng cách sử dụng phương thức
+          store.dispatch(). Khi một hành động được phát đi, Redux gọi reducer gốc, từ đó gọi các reducer tương ứng để
+          cập
+          nhật trạng thái.
+        <li>Theo dõi các thay đổi (Subscribing to Changes): Các thành phần có thể đăng ký theo dõi các thay đổi trong
+          kho chứa
+          Redux bằng cách sử dụng phương thức store.subscribe() hoặc kết nối với Redux bằng các thư viện như
+          react-redux.
+          Điều này cho phép các thành phần nhận các cập nhật khi trạng thái thay đổi và tái render theo thích hợp.
+          Bằng cách tuân thủ các nguyên tắc của Redux, bạn có thể duy trì sự phân tách rõ ràng giữa trạng thái và các
+          thành
+          phần giao diện người dùng của ứng dụng, giúp dễ dàng hiểu, kiểm tra và quản lý luồng trạng thái của ứng dụng.
+      </ul>
+      <h4 id="muc4_2">Sử dụng Redux trong ứng dụng React Native</h4>
+      <p>Sau đây là các bước cơ bản để sử dụng Redux trong ứng dụng React Native:</p>
+      <ol>
+        <li>Cài đặt Redux và React Redux
+          <ul>
+            <li>Trong thư mục dự án của bạn, chạy lệnh sau để cài đặt Redux và React Redux: <i>npm install redux
+                react-redux</i>
+            <li>Với <a href="https://snack.expo.dev/">Snack Expo</a> sẽ có các bài thực hành mẫu (TodoApp, BookApp) bên
+              dưới.
+            <li>Cài đặt các thư viện cần thiết cho Redux như redux, react-redux, và redux-thunk.
+          </ul>
+        <li>Tạo một cấu trúc thư mục cho các tệp Redux của bạn, ví dụ: actions, reducers, và store.
+        <li>Trong thư mục actions, tạo các tệp hành động cho các chức năng của ứng dụng của bạn. Định nghĩa các loại
+          hành
+          động và người tạo hành động.
+        <li>Trong thư mục reducers, tạo các tệp reducer cho mỗi phần của trạng thái của ứng dụng của bạn. Xác định trạng
+          thái ban đầu và xử lý các hành động.
+        <li>Sử dụng hàm combineReducers từ Redux để kết hợp các reducer của bạn thành một reducer gốc duy nhất.
+        <li>Trong thư mục store, tạo một tệp store.js. Nhập reducer gốc và tạo một Redux store bằng cách sử dụng
+          createStore.
+        <li>Trong điểm vào của ứng dụng của bạn (thông thường là App.js), nhập Redux store và bao gói ứng dụng của bạn
+          với
+          thành phần Provider từ react-redux.
+        <li>Kết nối các thành phần cần truy cập đến Redux store bằng cách sử dụng hàm connect từ react-redux. Ánh xạ
+          trạng
+          thái và hành động thành props.
+        <li>Gửi (dispatch) các hành động từ các thành phần của bạn để cập nhật trạng thái trong Redux store.
+        <li>Sử dụng trạng thái từ Redux store trong các thành phần của bạn để truy cập dữ liệu của ứng dụng.
+        <li>Kiểm tra ứng dụng của bạn và đảm bảo Redux hoạt động đúng bằng cách xác minh rằng hành động được gửi, trạng
+          thái được cập nhật và các thành phần nhận dữ liệu đã được cập nhật.
+      </ol>
+      <h4 id="muc4_3">Tạo ứng dụng BookApp và TodoApp</h4>
+      <h4>Ứng dụng TodoApp</h4>
+      <p>Giao diện ứng dụng</p>
+      <img class="center" src="img/bai02_27.png">
+      <p>Nhập một công việc vào mục <i>Enter a todo</i> (ví dụ workout) và nhấn nút <i>Add Todo</i></p>
+      <img class="center" src="img/bai02_28.png">
+      <p>Xem chi tiết <a href="">Hướng dẫn</a></p>
+      <h4>Ứng dụng BookApp</h4>
+      <p>Giao diện ứng dụng</p>
+      <img class="center" src="img/bai02_29.png">
+      <p>Nhập tên cuốn sách vào <i>Book name</i> và tên tác giả vào <i>Author Name</i></p>
+      <img class="center" src="img/bai02_30.png">
+      <p>Nhấn nút +</p>
+      <img class="center" src="img/bai02_31.png">
+      <p>Xóa cuốn sách bằng cách Nhấn nút <i>Remove</i>.</p>
+      <img class="center" src="img/bai02_29.png">
+      <p>Xem chi tiết <a href="">Hướng dẫn</a></p>
       <div class="w3-center">
         <div class="pagination">
           <a href="Bai01.html">Bài trước</a>
