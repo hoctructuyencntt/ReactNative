@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<title>Bài 4: Xây dựng một ứng dụng
+  hoàn chỉnh với React Native</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="w3.css">
+<link rel="stylesheet" href="font.css">
+<link rel="stylesheet" href="font-awesome.min.css">
+<style>
+  i {
+    color: yellow;
+  }
+
+  #myBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: pink;
+    color: black;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 4px;
+  }
+
+  #myBtn:hover {
+    background-color: #555;
+  }
+
+  .w3-main a {
+    background-color: red;
+  }
+
+  .pagination {
+    display: inline-block;
+  }
+
+  .pagination a {
+    color: white;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    background-color: gray;
+  }
+
+  .pagination a.active {
+    background-color: gray;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
+
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Raleway", sans-serif
+  }
+
+
+  table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  table td,
+  table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  /*
+  #tab tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+*/
+  table tr:hover {
+    background-color: #ddd;
+  }
+
+  table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
+  .w3-code a {
+    background-color: transparent;
+    text-decoration: none;
+    color: blue;
+  }
+
+  .video-container {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .video-container::after {
+    padding-top: 56.25%;
+    display: block;
+    content: '';
+  }
+
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<body class="w3-black w3-content" style="max-width:1600px">
+
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <div class="w3-container">
+      <a href="#" style="text-decoration: none;" onclick="w3_close()"
+        class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="Đóng"> X </a>
+      <!--<h4><b>Giáo trình</b></h4>-->
+    </div>
+    <div class="w3-bar-block">
+      <a href="Bai01.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 1: Làm quen
+        React
+        Native</a>
+      <a href="Baitap01.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài tập Bài 1</a>
+      <a href="Bai02.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 2: Xây dựng
+        giao diện ứng dụng với React Native</a>
+      <a href="https://hoctructuyencntt.github.io/ReactNative/BTBai02.pdf" onclick="w3_close()"
+        class="w3-bar-item w3-button w3-padding">Bài tập Bài 2</a>
+      <a href="Bai03.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 3: Sử dụng các API
+        (Application Programming Interface)</a>
+      <a href="Baitap03.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài tập Bài 3</a>
+      <a href="Bai04.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal">Bài 4: Xây dựng
+        một ứng dụng
+        hoàn chỉnh với React Native</a>
+      <a href="Baitap04.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài tập Bài 4</a>
+      <a href="Thamkhao.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Nguồn tham
+        khảo</a>
+    </div>
+  </nav>
+
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+    title="close side menu" id="myOverlay">=</div>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main" style="margin-left:300px">
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Lên đầu trang</button>
+    <!-- Header -->
+    <header id="portfolio">
+      <!--<a href="#"><img src="/w3images/avatar_g2.jpg" style="width:65px;"
+          class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>-->
+      <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()">=</span>
+      <div class="w3-container">
+        <h1><b>Bài 4: Xây dựng một ứng dụng
+            hoàn chỉnh với React Native</b></h1>
+        <div class="w3-section w3-bottombar"></div>
+      </div>
+    </header>
+
+    <div class="w3-container w3-padding-large" style="margin-bottom:32px">
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Bai03.html">Bài trước</a>
+        </div>
+      </div>
+      <div class="w3-code notranslate htmlHigh">
+        <h4>Nội dung bài học</h4>
+        <ol>
+          <li><a href="#muc1">Tạo ứng dụng và cấu hình</a>
+          </li>
+          <li><a href="#muc2">Xây dựng giao diện và lập trình ứng dụng với các API đa nền</a>
+          </li>
+          <li><a href="#muc3">Cài đặt và thực thi ứng dụng trên nền tảng Android hay iOS</a>
+          </li>
+        </ol>
+      </div>
+      <h3 id="muc1"><b>Tạo ứng dụng và cấu hình</b></h3>
+      <p>Trong bài này chúng ta sẽ xây dựng dự án Star Wars là một ứng dụng di động cho phép người
+        dùng lấy thông tin từ vũ trụ Star Wars thông qua việc gọi API Star Wars chính thức. Các thông tin bao gồm:</p>
+      <ul>
+        <li><i>People (Người)</i>: Trong ngữ cảnh của Star Wars, "people" đề cập đến các nhân vật, những người sống và
+          tham gia
+          vào
+          cốt truyện trong các phần của loạt phim Star Wars. Đây là những nhân vật như Luke Skywalker, Princess Leia,
+          Han
+          Solo, Darth Vader, Yoda, và nhiều nhân vật khác. Mỗi người trong vũ trụ Star Wars có một câu chuyện và lý lịch
+          riêng, và họ thường đóng một vai trò quan trọng trong việc phát triển cốt truyện.
+
+        <li><i>Films (Phim)</i>: "Film" trong vũ trụ Star Wars đề cập đến các tác phẩm điện ảnh hoặc truyền hình liên
+          quan đến
+          thế
+          giới Star Wars. Đây là các bộ phim và loạt phim như "Star Wars: Episode IV - A New Hope," "Star Wars: Episode
+          V -
+          The Empire Strikes Back," "Star Wars: Episode VI - Return of the Jedi," và nhiều tác phẩm khác. Các bộ phim
+          này là
+          tạo nên câu chuyện lớn của vũ trụ Star Wars và đã trở thành một phần quan trọng trong văn hóa pop và lịch sử
+          điện
+          ảnh.
+        <li><i>Starships (Tàu vũ trụ)</i>: Starship là các phương tiện vũ trụ lớn được sử dụng để du hành giữa các hành
+          tinh và
+          hệ
+          thống sao trong vũ trụ Star Wars. Đây có thể là những tàu vũ trụ như Millennium Falcon, X-wing, Star
+          Destroyer, và nhiều loại khác. Các starship thường được sử dụng trong các cuộc chiến đấu không gian và cho
+          việc di chuyển giữa các hành tinh và vùng không gian khác nhau.
+
+        <li><i>Vehicles (Phương tiện)</i>: Vehicle (phương tiện) bao gồm mọi loại phương tiện được sử dụng trên các hành
+          tinh
+          hoặc
+          vùng không gian của vũ trụ Star Wars. Điều này có thể là các phương tiện đường bộ như xe hoặc cơ giới, cũng
+          như các phương tiện không gian như tàu thám hiểm, speeder bikes, và các loại phương tiện khác.
+
+        <li><i>Species (Loài vật)</i>: Species (loài vật) đề cập đến các loài sinh vật và người ngoài hành tinh tồn tại
+          trong
+          vũ
+          trụ Star Wars. Ví dụ về loài vật nổi tiếng trong Star Wars bao gồm Wookiee (loài của Chewbacca), Twi'lek, và
+          Rodian (loài của Greedo). Mỗi loài thường có đặc điểm riêng biệt và văn hóa độc đáo.
+
+        <li><i>Planets (Hành tinh)</i>: Planets (hành tinh) đề cập đến các hành tinh và các vị trí trong vũ trụ Star
+          Wars. Vũ
+          trụ
+          này có nhiều hành tinh khác nhau, mỗi hành tinh có đặc điểm về địa lý, khí hậu, và văn hóa riêng biệt. Ví dụ
+          về một số hành tinh nổi tiếng trong Star Wars bao gồm Tatooine, Endor, và Hoth.
+      </ul>
+      <p>Dự án được tạo và cấu hình trên nền tảng <a href="https://snack.expo.dev/">Snack</a> như các bài tập hay ví dụ
+        từ các bài trước (tham khảo <a href="https://hoctructuyencntt.github.io/ReactNative/Bai02.html#muc4_3">Tạo ứng
+          dụng BookApp và TodoApp</a>), sau đó sử dụng thư viện React Navigation (xem lại <a
+          href="https://hoctructuyencntt.github.io/ReactNative/Bai02.html#muc2">Bài 2</a>)
+        để
+        quản lý navigation giữa các màn hình.</p>
+      <h3 id="muc2"><b>Xây dựng giao diện và lập trình ứng dụng với các API đa nền</b></h3>
+      <p>Dưới đây là tóm tắt các bước quan trọng trong dự án:</p>
+      <ul>
+        <li>Tạo Các Màn hình và Navigation: Các màn hình như "People", "Films",... được tạo ra và được quản lý trong một
+          Stack
+          Navigator bằng React Navigation (xem lại <a
+            href="https://hoctructuyencntt.github.io/ReactNative/Bai02.html#muc2">Bài 2</a>). Mỗi màn hình có thể chuyển
+          đổi qua lại thông qua các nút hoặc tương tác người
+          dùng.
+
+        <li>Gọi API và Xử lý Dữ liệu: Dự án gọi các API của Star Wars (ví dụ: API people hay
+          API
+          films) để lấy dữ liệu từ nguồn dữ liệu ngoại tuyến thông qua <a
+            href="https://reactnative.dev/docs/network">fetch</a> hoặc <a
+            href="https://github.com/axios/axios">axios</a>. Dữ liệu được lấy được lưu trữ trong các biến state.
+
+        <li>Hiển thị Dữ liệu: Dữ liệu về nhân vật và phim sau khi được lấy từ API được hiển thị lên giao diện sử dụng
+          các
+          component React Native như <a href="https://reactnative.dev/docs/flatlist">FlatList</a> để hiển thị danh sách.
+
+        <li>Tùy chỉnh Giao diện và Dữ liệu: Giao diện và dữ liệu hiển thị có thể được tùy chỉnh tùy theo yêu cầu cụ thể
+          của
+          dự
+          án, bao gồm việc thêm hình ảnh, mô tả chi tiết, và các yếu tố giao diện khác.
+      </ul>
+      <h3 id="muc3"><b>Cài đặt và thực thi ứng dụng trên nền tảng Android hay iOS</b></h3>
+      <p>Chạy ứng dụng trên nền tảng Web, Android hay iOS. Giao diện:</p>
+      <img class="center" src="img/bai04_01.png">
+      <p>Khi nhấn chuột vào một tùy chọn, ví dụ People:</p>
+      <img class="center" src="img/bai04_02.png">
+      <p>Chúng ta dùng hoạt ảnh <a href="https://hoctructuyencntt.github.io/ReactNative/Bai02.html#muc3_4">loading</a>
+        trong khi chờ dữ liệu tải về. Dữ liệu tải về được hiển thị trên FlatList theo các hàng.</p>
+      <p>Tham khảo dự án ban đầu về cách lấy và hiển thị thông tin từ vũ trụ Star Wars:</p>
+      <div data-snack-id="@ngocminhtran/starwarsapp" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Một dự án bắt đầu với các màn hình (screen) và điều hướng (Navigation):</p>
+      <div data-snack-id="@ngocminhtran/star-wars" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <div class="w3-center" style="margin-top: 10px;">
+        <div class="pagination">
+          <a href="Bai03.html">Bài trước</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- End page content -->
+  </div>
+
+
+  <script>
+    // Script to open and close sidebar
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("myOverlay").style.display = "block";
+    }
+
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("myOverlay").style.display = "none";
+    }
+
+    // Phần button top
+    var mybutton = document.getElementById("myBtn");
+
+
+    window.onscroll = function () { scrollFunction() };
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
+
+
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+
+</body>
+
+</html>

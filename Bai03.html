@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html>
+<title>Bài 3: Sử dụng các API
+  (Application Programming Interface)</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="w3.css">
+<link rel="stylesheet" href="font.css">
+<link rel="stylesheet" href="font-awesome.min.css">
+<style>
+  #myBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: pink;
+    color: black;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 4px;
+  }
+
+  #myBtn:hover {
+    background-color: #555;
+  }
+
+  .w3-main a {
+    background-color: red;
+  }
+
+  .pagination {
+    display: inline-block;
+  }
+
+  .pagination a {
+    color: white;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    background-color: gray;
+  }
+
+  .pagination a.active {
+    background-color: gray;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
+
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Raleway", sans-serif
+  }
+
+
+  table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  table td,
+  table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  /*
+  #tab tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+*/
+  table tr:hover {
+    background-color: #ddd;
+  }
+
+  table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
+  .w3-code a {
+    background-color: transparent;
+    text-decoration: none;
+    color: blue;
+  }
+
+  .video-container {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .video-container::after {
+    padding-top: 56.25%;
+    display: block;
+    content: '';
+  }
+
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  i {
+    color: yellow;
+  }
+</style>
+
+<body class="w3-black w3-content" style="max-width:1600px">
+
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <div class="w3-container">
+      <a href="#" style="text-decoration: none;" onclick="w3_close()"
+        class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="Đóng"> X </a>
+      <!--<h4><b>Giáo trình</b></h4>-->
+    </div>
+    <div class="w3-bar-block">
+      <a href="Bai01.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 1: Làm quen
+        React
+        Native</a>
+      <a href="Baitap01.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài tập Bài 1</a>
+      <a href="Bai02.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 2: Xây dựng
+        giao diện ứng dụng với React Native</a>
+      <a href="https://hoctructuyencntt.github.io/ReactNative/BTBai02.pdf" onclick="w3_close()"
+        class="w3-bar-item w3-button w3-padding">Bài tập Bài 2</a>
+      <a href="Bai03.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal">Bài 3: Sử dụng các
+        API
+        (Application Programming Interface)</a>
+      <a href="Baitap03.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài tập Bài 3</a>
+      <a href="Bai04.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 4: Xây dựng một ứng dụng
+        hoàn chỉnh với React Native</a>
+      <a href="Baitap04.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài tập Bài 4</a>
+      <a href="Thamkhao.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Nguồn tham
+        khảo</a>
+    </div>
+  </nav>
+
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+    title="close side menu" id="myOverlay">=</div>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main" style="margin-left:300px">
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Lên đầu trang</button>
+    <!-- Header -->
+    <header id="portfolio">
+      <!--<a href="#"><img src="/w3images/avatar_g2.jpg" style="width:65px;"
+          class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>-->
+      <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()">=</span>
+      <div class="w3-container">
+        <h1><b>Bài 3: Sử dụng các
+            API
+            (Application Programming Interface)</b></h1>
+        <div class="w3-section w3-bottombar"></div>
+      </div>
+    </header>
+
+    <div class="w3-container w3-padding-large" style="margin-bottom:32px">
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Bai02.html">Bài trước</a>
+          <a href="Bai04.html">Bài tiếp theo</a>
+        </div>
+      </div>
+      <div class="w3-code notranslate htmlHigh">
+        <h4>Nội dung bài học</h4>
+        <ol>
+          <li><a href="#muc1">Cross-Platform APIs</a>
+            <ul>
+              <li><a href="#muc1_1">Alert</a>
+              <li><a href="#muc1_2">AppState</a>
+              <li><a href="#muc1_3">AsyncStorage</a>
+              <li><a href="#muc1_4">Clipboard</a>
+              <li><a href="#muc1_5">Dimensions</a>
+              <li><a href="#muc1_6">Geolocation</a>
+              <li><a href="#muc1_7">Keyboard</a>
+              <li><a href="#muc1_8">NetInfo</a>
+              <li><a href="#muc1_9">PanResponder</a>
+
+            </ul>
+          </li>
+          <li><a href="#muc2">iOS-specific APIs</a>
+            <ul>
+              <li><a href="#muc2_1">DatePickerIOS</a>
+              <li><a href="#muc2_2">ProgressViewIOS</a>
+              <li><a href="#muc2_3">ActionSheetIOS</a>
+            </ul>
+          </li>
+          <li><a href="#muc3">Android-specific APIs </a>
+            <ul>
+              <li><a href="#muc3_1">DrawerLayoutAndroid</a>
+              <li><a href="#muc3_2">DatePickerAndroid (thay bằng DateTimePicker)</a>
+              <li><a href="#muc3_3">TimePickerAndroid (thay bằng DateTimePicker)</a>
+              <li><a href="#muc3_4">ToastAndroid </a>
+            </ul>
+          </li>
+        </ol>
+      </div>
+      <h4 id="muc1"><b>I. Cross-Platform APIs</b></h4>
+      <p>Một trong những lợi ích chính của việc sử dụng React Native là API gốc (native APIs) có thể dễ dàng được truy
+        cập
+        và sử dụng với JavaScript. Trong phần này, chúng ta sẽ đề cập đến các cross-platform API có sẵn. Khi truy cập
+        các
+        API này, chúng ta có thể sử dụng một cơ sở mã duy nhất (single codebase) để triển khai chức năng dành riêng cho
+        nền tảng trên cả iOS và Android. Chúng ta sẽ tìm hiểu các API dành riêng cho các nền tảng iOS (iOS-specific
+        APIs)
+        và Android (Android-specific APIs) trong phần sau.</p>
+      <h4 id="muc1_1"><b>Alert API</b></h4>
+      <p>Cảnh báo là một mẫu giao diện người dùng phổ biến trên cả web và thiết bị di động và đó là một cách dễ dàng để
+        cho
+        người dùng biết về điều gì đó đang xảy ra trong ứng dụng, như cảnh báo được sử dụng nếu quá trình tải xuống hoàn
+        tất, có lỗi đã xảy ra hoặc quá trình không đồng bộ (chẳng hạn như đăng nhập) đã hoàn tất.</p>
+      <p>Alert tạo ra cảnh báo cho ứng dụng trên cả hai nền tảng iOS và Android Bằng cách kích hoạt bằng cách gọi phương
+        thức alert: <i>Alert.alert(title, message, buttons, options)</i></p>
+      <p>Các đối số phương thức alert:</p>
+      <ul>
+        <li>title: Thông điệp chính.
+        <li>message: Thông điệp thứ 2.
+        <li>buttons: Mảng các đối tượng button, mỗi đối tượng có hai khóa là title và onPress.
+        <li>options: Tùy chọn. Là một đối tượng cho phép có nút hủy (Cancel) hay không dựa vào giá trị của khóa
+          cancelable: true.
+      </ul>
+      <p>Một ví dụ về sử dụng Alert</p>
+      <div data-snack-id="@ngocminhtran/alertapi" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Chú ý: Alert sẽ không hiển thị trên nền tảng Web. Chúng ta cài Expo Go trên thiết bị di động và quét mã QR của
+        ứng
+        dụng.</p>
+      <h4 id="muc1_2"><b>AppState API</b></h4>
+      <p>AppState sẽ cho bạn biết ứng dụng đang hoạt động, không hoạt động hay ở chế độ background. Về cơ bản, nó gọi
+        một
+        phương thức bất cứ khi nào trạng thái ứng dụng thay đổi, cho phép bạn thực hiện các hành động hoặc gọi các
+        phương
+        thức khác dựa trên trạng thái của ứng dụng (tham khảo về trạng thái ứng dụng tại
+        <a href="https://ngocminhtran.com/2018/07/29/chu-ky-song-cua-ung-dung-android-va-activity/">https://ngocminhtran.com/2018/07/29/chu-ky-song-cua-ung-dung-android-va-activity/
+        </a>để hiểu background hay
+        foreground).
+      </p>
+      <p>AppState là một API hữu ích. Nhiều lần, khi ứng dụng ở chế độ foreground, bạn có thể muốn thực hiện những việc
+        như
+        tìm nạp dữ liệu mới từ API của bạn—và đó là trường hợp sử dụng tuyệt vời cho AppState.</p>
+      <p>Một trường hợp sử dụng khác là xác thực. Khi ứng dụng được đặt ở chế độ foreground, bạn có thể muốn thêm một
+        lớp
+        bảo mật khác, chẳng hạn như mã PIN hoặc dấu vân tay.</p>
+      <p>Nếu bạn đang thực hiện bỏ phiếu, chẳng hạn như truy cập cơ sở dữ liệu cứ sau 15 giây hoặc lâu hơn để kiểm tra
+        dữ
+        liệu mới, bạn có thể muốn tắt bỏ phiếu khi người dùng đẩy ứng dụng vào lý lịch. AppState cũng là một trường hợp
+        sử
+        dụng tuyệt vời cho việc này.</p>
+      <p>Chương trình minh họa: </p>
+      <div data-snack-id="@ngocminhtran/appstatetapi" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Trong ví dụ này, chúng ta import các thành phần cần thiết từ react-native và định nghĩa một thành phần hàm App.
+        Chúng ta sử dụng hook <i>useState</i> để khởi tạo biến <i>appState</i> và hook <i>useEffect</i> để đăng ký lắng
+        nghe sự thay đổi
+        trạng
+        thái ứng dụng.</p>
+      <p>Trong hook <i>useEffect</i>, chúng ta thêm một trình lắng nghe sự kiện cho sự kiện '<i>change</i>' của
+        <i>AppState</i>. Hàm xử lý sự
+        kiện <i>handleAppStateChange</i> được gọi mỗi khi trạng thái ứng dụng thay đổi và nó cập nhật biến
+        <i>appState</i> bằng cách
+        sử
+        dụng hàm <i>setAppState</i>.
+      </p>
+      <p>Câu lệnh <i>return</i> trong hook <i>useEffect</i> dọn dẹp trình lắng nghe sự kiện khi thành phần bị
+        <i>unmount</i>, đảm bảo không
+        có
+        rò rỉ bộ nhớ.
+      </p>
+      <p>Cuối cùng, chúng ta hiển thị một thành phần <i>View</i> đơn giản với một thành phần <i>Text</i> để hiển thị
+        trạng thái ứng
+        dụng
+        hiện tại.</p>
+      <h4 id="muc1_3"><b>AsyncStorage API</b></h4>
+      <p> <i>AsyncStorage</i> là một API trong React Native dùng để lưu trữ dữ liệu trên thiết bị di động. Nó cho phép
+        bạn lưu
+        trữ
+        và truy xuất dữ liệu từ bộ nhớ cục bộ của ứng dụng. Dưới đây là một số phương thức quan trọng của
+        <i>AsyncStorage</i>:
+      </p>
+      <ul>
+        <li>setItem(key, value, callback): Phương thức này được sử dụng để lưu trữ một cặp key-value trong AsyncStorage.
+          Key
+          là một chuỗi duy nhất để định danh dữ liệu, và value là giá trị dữ liệu cần lưu trữ. Callback (hàm gọi lại)
+          được
+          sử dụng để xử lý kết quả sau khi hoạt động lưu trữ hoàn tất.
+        <li>getItem(key, callback): Phương thức này được sử dụng để truy xuất giá trị dữ liệu từ AsyncStorage bằng cách
+          cung
+          cấp key tương ứng. Callback được sử dụng để xử lý kết quả trả về sau khi hoạt động truy xuất hoàn tất.
+
+        <li>removeItem(key, callback): Phương thức này được sử dụng để xóa một cặp key-value từ AsyncStorage bằng cách
+          cung
+          cấp key. Callback được sử dụng để xử lý kết quả sau khi hoạt động xóa hoàn tất.
+        <li>mergeItem(key, value, callback): Phương thức này được sử dụng để kết hợp giá trị mới vào giá trị hiện có của
+          một
+          key trong AsyncStorage. Nếu key đã tồn tại, giá trị mới sẽ được ghi đè lên giá trị hiện có. Callback được sử
+          dụng
+          để xử lý kết quả sau khi hoạt động kết hợp hoàn tất.
+        <li>clear(callback): Phương thức này được sử dụng để xóa tất cả dữ liệu đã lưu trữ trong AsyncStorage. Callback
+          được
+          sử dụng để xử lý kết quả sau khi hoạt động xóa hoàn tất.
+        <li>getAllKeys(callback): Phương thức này trả về tất cả các key đã lưu trữ trong AsyncStorage. Callback được sử
+          dụng
+          để xử lý kết quả trả về danh sách các key.
+        <li>multiGet(keys, callback): Phương thức này được sử dụng để truy xuất giá trị của nhiều key cùng một lúc từ
+          AsyncStorage. Bạn cung cấp một mảng các key và phương thức trả về giá trị tương ứng của các key đó thông qua
+          callback.
+        <li>multiSet(keyValuePairs, callback): Phương thức này được sử dụng để lưu trữ nhiều cặp key-value cùng một lúc
+          trong AsyncStorage. Bạn cung cấp một mảng các cặp key-value và phương thức gọi lại được sử dụng để xử lý kết
+          quả
+          sau khi hoạt động lưu trữ hoàn tất.
+        <li>multiRemove(keys, callback): Phương thức này được sử dụng để xóa nhiều key cùng một lúc từ AsyncStorage. Bạn
+          cung cấp một mảng các key cần xóa và phương thức gọi lại được sử dụng để xử lý kết quả sau khi hoạt động xóa
+          hoàn
+          tất.
+        <li>multiMerge(keyValuePairs, callback): Phương thức này được sử dụng để kết hợp giá trị mới vào giá trị hiện có
+          của
+          nhiều key cùng một lúc trong AsyncStorage. Bạn cung cấp một mảng các cặp key-value và phương thức gọi lại được
+          sử
+          dụng để xử lý kết quả sau khi hoạt động kết hợp hoàn tất.
+      </ul>
+      <p> Các phương thức này cho phép bạn lưu trữ và truy xuất dữ liệu từ AsyncStorage một cách đơn giản trong React
+        Native. Bạn có thể sử dụng chúng để lưu trữ thông tin người dùng, cài đặt ứng dụng, hoặc bất kỳ dữ liệu nào khác
+        mà bạn cần lưu trữ cục bộ trên thiết bị di động của người dùng.</p>
+      <p>Chương trình minh họa:</p>
+      <div data-snack-id="@ngocminhtran/asyncstorageapi" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <h4 id="muc1_4"><b>Clipboard API</b></h4>
+      <p><i>Clipboard API</i> là một API trong React Native cho phép bạn truy cập và tương tác với bộ nhớ clipboard trên
+        thiết
+        bị
+        di động. Nó cho phép bạn sao chép (copy) và dán (paste) nội dung văn bản giữa ứng dụng của bạn và các ứng dụng
+        khác. Dưới đây là một số phương thức quan trọng của <i>Clipboard API</i>:</p>
+      <ul>
+        <li>getString(): Phương thức này được sử dụng để lấy nội dung văn bản hiện có trong clipboard. Nó trả về một
+          Promise
+          chứa chuỗi văn bản.
+        <li>setString(content): Phương thức này được sử dụng để đặt nội dung văn bản vào clipboard. Bạn cung cấp nội
+          dung
+          văn bản cần sao chép dưới dạng đối số.
+      </ul>
+      <p>Các phương thức này cho phép bạn tương tác với bộ nhớ clipboard trong React Native. Bạn có thể sử dụng chúng để
+        sao chép nội dung từ ứng dụng của mình và dán nó vào các ứng dụng khác hoặc ngược lại. Việc sử dụng Clipboard
+        API
+        rất hữu ích khi bạn muốn chia sẻ hoặc di chuyển dữ liệu văn bản giữa các ứng dụng khác nhau trên thiết bị di
+        động.</p>
+      <p>Chương trình minh họa:</p>
+      <div data-snack-id="@ngocminhtran/clipboardapi" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Trong ví dụ này, chúng ta có một ứng dụng đơn giản với một ô nhập văn bản và nút "Sao chép". Khi người dùng
+        nhập
+        văn bản và nhấn nút "Sao chép", giá trị được sao chép vào clipboard bằng cách sử dụng
+        <i>Clipboard.setString(text)</i>.
+        Sau đó, giá trị được sao chép sẽ hiển thị dưới dạng "Văn bản đã sao chép".
+      </p>
+      <h4 id="muc1_5"><b>Dimensions API</b></h4>
+      <p><i>Dimensions API</i> trong React Native cung cấp các phương thức để lấy thông tin về kích thước và hình dạng
+        của thiết
+        bị. Nó giúp bạn thích nghi giao diện người dùng với các kích thước và tỷ lệ khác nhau của các thiết bị di động.
+        Dưới đây là một số phương thức quan trọng của <i>Dimensions API</i>:</p>
+      <ul>
+        <li>get(): { width, height }: Phương thức này trả về một đối tượng chứa thông tin về chiều rộng (width) và chiều
+          cao
+          (height) của kích thước màn hình của thiết bị.
+        <li>addEventListener(type, handler): Phương thức này cho phép bạn đăng ký các sự kiện thay đổi kích thước màn
+          hình.
+          Bạn cung cấp một chuỗi type để xác định loại sự kiện và một handler để xử lý sự kiện khi kích thước màn hình
+          thay
+          đổi.
+        <li>removeEventListener(type, handler): Phương thức này cho phép bạn huỷ đăng ký các sự kiện đã được đăng ký
+          trước
+          đó bằng addEventListener(). Bạn cung cấp cùng một chuỗi type và handler đã được đăng ký trước đó.
+      </ul>
+      <i>Dimensions API</i> cho phép bạn lấy thông tin về kích thước màn hình và tương tác với các sự kiện thay đổi kích
+      thước.
+      Bằng cách sử dụng các thông tin này, bạn có thể điều chỉnh giao diện người dùng của ứng dụng để phù hợp với các
+      thiết bị di động khác nhau.
+      <p>Chương trình minh họa:</p>
+      <div data-snack-id="@ngocminhtran/dimensionsapi" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Trong ví dụ này, chúng ta sử dụng <i>Dimensions API</i> để lấy kích thước màn hình ban đầu và cập nhật kích
+        thước màn
+        hình khi có sự thay đổi. Bên trong <i>useEffect</i>, chúng ta đăng ký một hàm <i>updateScreenSize</i> để cập
+        nhật giá trị của
+        <i>screenWidth</i> và <i>screenHeight</i> dựa trên kích thước màn hình mới. Hàm <i>updateScreenSize</i> được gọi
+        mỗi khi có sự thay đổi
+        kích thước màn hình. Chúng ta cũng sử dụng <i>return</i> trong <i>useEffect</i> để huỷ đăng ký sự kiện khi
+        component <i>unmount</i>.
+        Trên giao diện người dùng, chúng ta hiển thị kích thước màn hình thông qua một đoạn văn bản. Khi kích thước màn
+        hình thay đổi, đoạn văn bản sẽ được cập nhật hiển thị kích thước mới.
+      </p>
+      <h4 id="muc1_6"><b>Geolocation API</b></h4>
+      <p><i>Geolocation API</i> trong React Native cung cấp các phương thức để truy cập và sử dụng dữ liệu vị trí của
+        thiết bị.
+        Nó
+        cho phép ứng dụng của bạn lấy thông tin về vị trí địa lý của người dùng như tọa độ địa lý (latitude và
+        longitude),
+        tốc độ, hướng và độ chính xác. Dưới đây là một số phương thức quan trọng của <i>Geolocation API</i>:</p>
+      <ul>
+        <li>getCurrentPosition(success, error, options): Phương thức này được sử dụng để lấy thông tin vị trí hiện tại
+          của
+          thiết bị. Bạn cung cấp một hàm callback success để xử lý thành công và một hàm callback error để xử lý khi có
+          lỗi
+          xảy ra. Bạn cũng có thể cung cấp các tùy chọn (options) để xác định các yêu cầu và quyền truy cập cho việc lấy
+          thông tin vị trí.
+        <li>watchPosition(success, error, options): Phương thức này cho phép bạn theo dõi liên tục vị trí của thiết bị
+          khi
+          có sự thay đổi. Bạn cung cấp một hàm callback success để xử lý các cập nhật vị trí mới và một hàm callback
+          error
+          để xử lý khi có lỗi xảy ra. Cũng giống như getCurrentPosition(), bạn có thể cung cấp các tùy chọn (options) để
+          điều chỉnh quyền truy cập và yêu cầu.
+        <li>clearWatch(watchId): Phương thức này được sử dụng để dừng việc theo dõi vị trí bởi watchPosition(). Bạn cần
+          cung
+          cấp ID của watch đã được trả về từ watchPosition() để xác định watch cần dừng.
+      </ul>
+      <p><i>Geolocation API</i> cho phép bạn truy cập thông tin vị trí của thiết bị và theo dõi sự thay đổi vị trí. Bằng
+        cách
+        sử
+        dụng các phương thức này, bạn có thể tích hợp tính năng dựa trên vị trí vào ứng dụng của mình, chẳng hạn như
+        hiển
+        thị bản đồ, tìm kiếm địa điểm gần bạn, và các chức năng liên quan đến vị trí.</p>
+      <p>Chương trình minh họa:</p>
+      <div data-snack-id="@ngocminhtran/geolocationapi" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Trong ví dụ này, chúng ta sử dụng <i>Geolocation API</i> của Expo để lấy vị trí hiện tại của thiết bị. Trong
+        <i>useEffect</i>,
+        chúng ta yêu cầu quyền truy cập vị trí và sau đó sử dụng <i>Location.getCurrentPositionAsync({})</i> để lấy vị
+        trí hiện
+        tại.
+        Kết quả được hiển thị trên giao diện người dùng, hiển thị tọa độ vị trí hiện tại của thiết bị. Nếu quyền truy
+        cập
+        vị trí bị từ chối, thông báo lỗi sẽ được hiển thị.
+      </p>
+      <h4 id="muc1_7"><b>Keyboard API</b></h4>
+      <p><i>Keyboard API</i> trong React Native cung cấp các phương thức và sự kiện để tương tác với bàn phím của thiết
+        bị di
+        động. Nó cho phép ứng dụng của bạn kiểm soát hiển thị và ẩn bàn phím, đồng thời cung cấp các sự kiện để phản ứng
+        khi trạng thái bàn phím thay đổi. Dưới đây là một số phương thức và sự kiện quan trọng của <i>Keyboard API</i>:
+      </p>
+      <ul>
+        <li>Keyboard.dismiss(): Phương thức này được sử dụng để ẩn bàn phím. Bạn có thể gọi phương thức này để đảm bảo
+          rằng
+          bàn phím sẽ không che phủ phần nội dung quan trọng trên màn hình.
+        <li>Keyboard.addListener(eventName, listener): Phương thức này cho phép bạn đăng ký một hàm nghe sự kiện bàn
+          phím.
+          Bạn cung cấp tên của sự kiện (eventName) mà bạn muốn lắng nghe, chẳng hạn như "keyboardDidShow",
+          "keyboardDidHide", "keyboardWillShow", "keyboardWillHide". Khi sự kiện xảy ra, hàm nghe (listener) sẽ được gọi
+          và
+          bạn có thể xử lý sự kiện đó.
+        <li>Keyboard.removeListener(eventName, listener): Phương thức này được sử dụng để huỷ đăng ký một hàm nghe sự
+          kiện
+          bàn phím. Bạn cần cung cấp cùng tên sự kiện và hàm nghe đã được đăng ký trước đó.
+      </ul>
+      <p><i>Keyboard API</i> cho phép bạn kiểm soát hiển thị và ẩn bàn phím cũng như phản ứng khi trạng thái bàn phím
+        thay đổi.
+        Bằng cách sử dụng các phương thức và sự kiện này, bạn có thể tạo các trải nghiệm tốt hơn về nhập liệu trong ứng
+        dụng của mình và điều chỉnh giao diện người dùng phù hợp với trạng thái bàn phím.</p>
+      <p>Chương trình minh họa:</p>
+      <div data-snack-id="@ngocminhtran/keyboardapi" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Trong ví dụ này, chúng ta sử dụng state <i>keyboardVisible</i> để theo dõi trạng thái của bàn phím (hiển thị
+        hoặc ẩn).
+        Khi sự kiện '<i>keyboardDidShow</i>' được kích hoạt, chúng ta cập nhật state <i>keyboardVisible</i> thành true,
+        và khi sự kiện
+        '<i>keyboardDidHide</i>' được kích hoạt, chúng ta cập nhật state <i>keyboardVisible</i> thành false.
+        Trong giao diện người dùng, chúng ta hiển thị thông báo tương ứng dựa trên trạng thái của bàn phím. Nếu
+        <i>keyboardVisible</i> là true, chúng ta hiển thị thông báo "Bàn phím đã hiển thị", ngược lại, chúng ta hiển thị
+        thông
+        báo "Bàn phím đã ẩn".
+      </p>
+      <h4 id="muc1_8"><b>NetInfo API</b></h4>
+      <p><i>NetInfo API</i> trong React Native cung cấp các phương thức và sự kiện để theo dõi trạng thái kết nối mạng
+        của
+        thiết
+        bị. Nó cho phép ứng dụng của bạn kiểm tra xem thiết bị có kết nối mạng hay không, loại kết nối mạng đang được sử
+        dụng, và theo dõi sự thay đổi trong trạng thái kết nối mạng. Dưới đây là một số phương thức và sự kiện quan
+        trọng
+        của <i>NetInfo API</i>:</p>
+      <ul>
+        <li>NetInfo.fetch(): Phương thức này được sử dụng để lấy thông tin về trạng thái kết nối mạng hiện tại của thiết
+          bị.
+          Nó trả về một Promise với các thông tin như loại kết nối (type), thông tin chi tiết về kết nối (details), và
+          trạng
+          thái kết nối (isConnected).
+        <li>NetInfo.addEventListener(eventName, listener): Phương thức này cho phép bạn đăng ký một hàm nghe sự kiện
+          thay
+          đổi trong trạng thái kết nối mạng. Bạn cung cấp tên của sự kiện (eventName) mà bạn muốn lắng nghe, chẳng hạn
+          như
+          "connectionChange". Khi sự kiện xảy ra, hàm nghe (listener) sẽ được gọi và bạn có thể xử lý sự kiện đó.
+        <li>NetInfo.removeEventListener(eventName, listener): Phương thức này được sử dụng để huỷ đăng ký một hàm nghe
+          sự
+          kiện thay đổi trong trạng thái kết nối mạng. Bạn cần cung cấp cùng tên sự kiện và hàm nghe đã được đăng ký
+          trước
+          đó.
+      </ul>
+      <p><i>NetInfo API</i> cho phép bạn kiểm tra trạng thái kết nối mạng của thiết bị và theo dõi sự thay đổi trong
+        trạng thái
+        đó. Bằng cách sử dụng các phương thức và sự kiện này, bạn có thể điều chỉnh ứng xử của ứng dụng dựa trên trạng
+        thái kết nối mạng, ví dụ như hiển thị thông báo khi mất kết nối hoặc tải lại dữ liệu khi kết nối được khôi phục.
+      </p>
+      <p>Chương trình minh họa:</p>
+      <div data-snack-id="@ngocminhtran/netinfoapi" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Trong ví dụ này, chúng ta sử dụng <i>NetInfo API</i> để theo dõi trạng thái kết nối mạng của thiết bị. Trong
+        <i>useEffect</i>,
+        chúng ta sử dụng <i>NetInfo.addEventListener()</i> để đăng ký một hàm nghe sự kiện thay đổi trong trạng thái kết
+        nối
+        mạng. Mỗi khi sự kiện xảy ra, hàm nghe sẽ được gọi và chúng ta cập nhật giá trị của <i>connectionType</i> và
+        <i>isConnected</i>
+        tương ứng.
+      </p>
+      <p>Trong giao diện người dùng, chúng ta hiển thị thông tin về loại kết nối mạng (connectionType) và trạng thái kết
+        nối (isConnected). Các thông tin này được cập nhật khi có sự thay đổi trong trạng thái kết nối mạng.</p>
+      <h4 id="muc1_9"><b>PanResponder API</b></h4>
+      <p><i>PanResponder API</i> trong React Native cho phép bạn xử lý các sự kiện liên quan đến chạm và di chuyển trên
+        giao
+        diện
+        người dùng. Nó cung cấp các phương thức và sự kiện để bạn có thể điều khiển và phản ứng với các tương tác người
+        dùng như vuốt, kéo và thả, hoặc xoay. Dưới đây là một số phương thức quan trọng của <i>PanResponder API</i>:</p>
+      <ul>
+        <li>PanResponder.create(config): Phương thức này được sử dụng để tạo một PanResponder instance mới. Bạn cần cung
+          cấp
+          một đối tượng cấu hình (config) để xác định các hành động và xử lý sự kiện liên quan đến chạm và di chuyển.
+        <li>onStartShouldSetPanResponder(event, gestureState): Phương thức này được sử dụng để xác định xem liệu
+          component
+          có nên trở thành "pan responder" khi người dùng bắt đầu chạm vào nó. Nó trả về một giá trị boolean để xác định
+          xem
+          component có nên trở thành "pan responder" hay không.
+        <li>onMoveShouldSetPanResponder(event, gestureState): Phương thức này được sử dụng để xác định xem liệu
+          component có
+          nên trở thành "pan responder" khi người dùng di chuyển nó. Tương tự như onStartShouldSetPanResponder, nó trả
+          về
+          một giá trị boolean để xác định xem component có nên trở thành "pan responder" hay không.
+        <li>onPanResponderGrant(event, gestureState): Phương thức này được gọi khi component đã trở thành "pan
+          responder" và
+          chạm vào nó đã được xác nhận. Bạn có thể thực hiện các hành động như thay đổi trạng thái của component hoặc
+          hiển
+          thị phản hồi tương ứng.
+        <li>onPanResponderMove(event, gestureState): Phương thức này được gọi khi người dùng di chuyển component đã trở
+          thành "pan responder". Bạn có thể sử dụng thông tin trong gestureState để xử lý việc di chuyển, như thay đổi
+          vị
+          trí hoặc đối tượng liên quan.
+        <li>onPanResponderRelease(event, gestureState): Phương thức này được gọi khi người dùng kết thúc hành động chạm
+          và
+          di chuyển. Bạn có thể thực hiện các hành động cuối cùng, như hoàn tất một thao tác hoặc đặt lại trạng thái của
+          component.
+      </ul>
+      <p><i>PanResponder API</i> cho phép bạn tạo và điều khiển các tương tác chạm và di chuyển trên giao diện người
+        dùng. Bằng
+        cách sử dụng các phương thức và sự kiện này, bạn có thể phản ứng và thực hiện các hành động tùy chỉnh dựa trên
+        tương tác người dùng.</p>
+      <p>Chương trình minh họa:</p>
+      <div data-snack-id="@ngocminhtran/panresponderapi" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Trong ví dụ này, chúng ta sử dụng <i>useRef</i> để tạo một tham chiếu đến giá trị pan sử dụng
+        <i>Animated.ValueXY()</i>, đại
+        diện cho vị trí của hình vuông trên màn hình.
+      </p>
+      <p>Chúng ta tạo một <i>panResponder</i> bằng cách sử dụng <i>PanResponder.create()</i> và gán nó cho tham chiếu
+        <i>panResponder</i>.
+        Trong
+        đó, chúng ta xác định các phương thức xử lý sự kiện như <i>onStartShouldSetPanResponder</i>,
+        <i>onPanResponderMove</i> và
+        <i>onPanResponderRelease</i>. Trong phương thức <i>onPanResponderRelease</i>, chúng ta sử dụng <i>pan.setValue({
+          x: 0, y: 0 })</i> để
+        đặt lại vị trí của hình vuông về vị trí ban đầu.
+      </p>
+      <p>Trong giao diện người dùng, chúng ta sử dụng một <i>Animated.View</i> để hiển thị hình vuông. Chúng ta áp dụng
+        <i>transform</i>
+        cho <i>Animated.View</i> bằng cách sử dụng giá trị <i>pan.x</i> và <i>pan.y</i>. Chúng ta cũng áp dụng
+        <i>panHandlers</i> từ <i>panResponder</i>
+        cho
+        <i>Animated.View</i>, cho phép hình vuông phản ứng với các sự kiện chạm và di chuyển.
+      </p>
+      <h4 id="muc2"><b>II. iOS-specific APIs</b></h4>
+      <p>Trong mục này chúng ta sẽ tìm hiểu các API dành riêng cho các nền tảng iOS (iOS-specific APIs) như
+        DatePickerIOS,
+        ProgressViewIOS và ActionSheetIOS.
+        Một số API khác được khuyến nghị không dùng hay bị xóa từ các phiên bản mới nhất của React Native như PickerIOS
+        ,
+        SegmentedControlIOS hay TabBarIOS sẽ không đề cập.</p>
+
+
+      <h4 id="muc2_1"><b>DatePickerIOS API</b></h4>
+      <p>DatePickerIOS API trong React Native cung cấp các thành phần và phương thức để tạo và quản lý một DatePicker
+        cho
+        việc chọn ngày trong ứng dụng. Dưới đây là các phương thức chính của DatePickerIOS API:</p>
+      <ul>
+        <li>date (Thuộc tính): Đây là thuộc tính dùng để xác định ngày hiện tại hoặc ngày được chọn. Bạn có thể truyền
+          giá
+          trị ngày dưới dạng đối tượng Date vào thuộc tính này.
+        <li>onDateChange (Thuộc tính): Đây là thuộc tính để xác định một hàm xử lý sự kiện khi ngày được thay đổi. Hàm
+          xử lý
+          này nhận vào tham số là đối tượng Date mới, đại diện cho ngày mới được chọn.
+        <li>mode (Thuộc tính): Đây là thuộc tính để xác định chế độ hiển thị của DatePickerIOS. Có các chế độ sau đây:
+          <ul>
+            <li>"date": Hiển thị ngày tháng năm.
+            <li>"time": Hiển thị giờ và phút.
+            <li>"datetime": Hiển thị ngày tháng năm cùng với giờ và phút.
+          </ul>
+        <li>maximumDate (Thuộc tính): Đây là thuộc tính để xác định ngày tối đa mà người dùng có thể chọn. Ngày tối đa
+          phải
+          là một đối tượng Date.
+        <li>minimumDate (Thuộc tính): Đây là thuộc tính để xác định ngày tối thiểu mà người dùng có thể chọn. Ngày tối
+          thiểu
+          phải là một đối tượng Date.
+        <li>minuteInterval (Thuộc tính): Đây là thuộc tính để xác định khoảng thời gian tối thiểu giữa các giá trị phút
+          có
+          thể chọn. Ví dụ: nếu minuteInterval là 5, người dùng chỉ có thể chọn các giá trị phút chia hết cho 5 (0, 5,
+          10,
+          ...).
+      </ul>
+      <p>Các phương thức này được sử dụng để tạo và quản lý DatePickerIOS trong ứng dụng React Native. Bạn có thể sử
+        dụng
+        chúng để định cấu hình DatePickerIOS và xử lý sự kiện khi ngày được chọn thay đổi.</p>
+      <p>Chương trình minh họa:</p>
+      <div data-snack-id="@ngocminhtran/datepickeriosapi" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Chọn My Device, quét mã QR trên iOS để xem kết quả.</p>
+      <h4 id="muc2_2"><b>ProgressViewIOS API</b></h4>
+      <p> ProgressViewIOS API trong React Native là một thành phần dùng để hiển thị một thanh tiến trình (progress bar)
+        trên
+        ứng dụng di động iOS. Thanh tiến trình là một công cụ trực quan để hiển thị tiến độ hoàn thành của một tác vụ
+        hoặc
+        quá trình đang diễn ra.</p>
+      <p>ProgressViewIOS Component là một thành phần có sẵn trong react-native cho phép bạn tạo và hiển thị thanh tiến
+        trình.</p>
+      <p>Các Props quan trọng:</p>
+      <ul>
+        <li>progress: Giá trị tiến trình, được biểu diễn dưới dạng một số thập phân từ 0 đến 1. Ví dụ: 0.5 sẽ hiển thị
+          tiến
+          trình 50%.
+        <li>progressTintColor: Màu của phần đã hoàn thành của thanh tiến trình.
+        <li>trackTintColor: Màu của phần chưa hoàn thành của thanh tiến trình.
+      </ul>
+      <p>Chương trình minh họa:</p>
+      <div data-snack-id="@ngocminhtran/progressviewiosapi" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Chọn My Device, quét mã QR trên iOS để xem kết quả.</p>
+      <p>Trong ví dụ này, chúng ta sử dụng một thành phần ProgressViewIOS để hiển thị thanh tiến trình. Sử dụng useState
+        để
+        theo dõi giá trị tiến trình và useEffect để tạo một hiệu ứng tiến trình tự động tăng giá trị sau mỗi khoảng thời
+        gian. Khi giá trị tiến trình đạt tới 1, ta ngừng tăng giá trị.</p>
+      <h4 id="muc2_3"><b>ActionSheetIOS API</b></h4>
+      <p>ActionSheetIOS API trong React Native là một thành phần dùng để hiển thị một menu chọn hành động (action sheet)
+        trên ứng dụng di động iOS. Menu này thường xuất hiện dưới cùng của màn hình và chứa danh sách các tùy chọn mà
+        người dùng có thể chọn để thực hiện một hành động cụ thể.</p>
+      <p>ActionSheetIOS Component là một API tương tác mà bạn gọi để hiển thị menu chọn hành động.</p>
+      <p>Phương thức showActionSheetWithOptions(Options, Callback): Phương thức này dùng để hiển thị menu chọn hành
+        động.
+        Bạn cần cung cấp một đối tượng Options chứa thông tin về các tùy chọn và một hàm Callback sẽ được gọi khi người
+        dùng chọn một tùy chọn cụ thể. Chi tiết về các đối số:</p>
+      <ul>
+        <li>Đối tượng Options:
+          <ul>
+            <li>options: Một mảng các chuỗi đại diện cho các tùy chọn.
+            <li>destructiveButtonIndex: Chỉ mục của tùy chọn gây hại (như xóa) trong menu.
+            <li>cancelButtonIndex: Chỉ mục của tùy chọn hủy bỏ.
+          </ul>
+        <li>Hàm Callback: nhận vào chỉ mục của tùy chọn được chọn bởi người dùng.
+      </ul>
+      <p>Chương trình minh họa:</p>
+      <div data-snack-id="@ngocminhtran/actionsheetiosapi" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <p>Chọn My Device, quét mã QR trên iOS để xem kết quả.</p>
+      <p>Trong ví dụ này, khi người dùng nhấn vào nút "Show Action Sheet", showActionSheet được gọi để hiển thị menu
+        chọn
+        hành động. Một hộp thoại xuất hiện với các tùy chọn (Option 1, Option 2, Option 3) và một tùy chọn "Cancel". Khi
+        người dùng chọn một tùy chọn, hàm callback được gọi để xử lý hành động tương ứng.</p>
+      <h4 id="muc3"><b>IV. Android-specific APIs</b></h4>
+      <p>Trong mục này chúng ta sẽ tìm hiểu các API dành riêng cho các nền tảng Android (Android-specific APIs) như
+        DrawerLayoutAndroid,
+        DatePickerAndroid, TimePickerAndroid và ToastAndroid . Một số API khác được khuyến nghị không dùng hay bị xóa từ
+        các phiên bản mới
+        nhất của React Native như ToolbarAndroid, ViewPagerAndroid sẽ không đề cập.</p>
+      <h4 id="muc3_1"><b>DrawerLayoutAndroid API</b></h4>
+      <p>DrawerLayoutAndroid là một thành phần trong React Native được sử dụng để tạo ra một thanh đựng (drawer) có thể
+        kéo
+        ra và đẩy vào bên trong màn hình ứng dụng. Thành phần này thường được sử dụng để tạo menu điều hướng hoặc các
+        tùy
+        chọn hiển thị ngoài màn hình chính.</p>
+
+      <p>Thành phần DrawerLayoutAndroid chỉ hoạt động trên nền tảng Android và tương tự như thành phần DrawerLayout
+        trong
+        Android native development. Một số thuộc tính quan trọng (props):</p>
+      <ul>
+        <li>drawerWidth: Chiều rộng của thanh đựng khi được mở ra.
+        <li>drawerPosition: Vị trí của thanh đựng, có thể là "left" (trái) hoặc "right" (phải).
+        <li>renderNavigationView: Hàm callback trả về thành phần chứa nội dung của thanh đựng.
+      </ul>
+      <p>Ví dụ minh họa:</p>
+      <div data-snack-id="@ngocminhtran/drawerlayoutandroidapi" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <h4 id="muc3_2"><b>DatePickerAndroid API (thay bằng DateTimePicker)</b></h4>
+      <p>DatePickerAndroid là một thành phần trong React Native được sử dụng để hiển thị một picker ngày tháng (date
+        picker) trên nền tảng Android. Picker này cho phép người dùng chọn một ngày cụ thể từ một giao diện có sẵn. Các
+        phiên bản mới của React Native khuyến nghị không dùng API này mà thay thế bằng DateTimePicker. Minh họa sau dùng
+        DateTimePicker:</p>
+      <div data-snack-id="@ngocminhtran/datepickerandroidapi" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <h4 id="muc3_3"><b>TimePickerAndroid API(thay bằng DateTimePicker)</b></h4>
+      <p>TimePickerAndroid là một thành phần trong React Native được sử dụng để hiển thị một picker thời gian (time
+        picker) trên nền tảng Android. Picker này cho phép người dùng chọn một thời gian cụ thể từ một giao diện có sẵn.
+        Các
+        phiên bản mới của React Native khuyến nghị không dùng API này mà thay thế bằng DateTimePicker. Minh họa sau dùng
+        DateTimePicker:</p>
+      <div data-snack-id="@ngocminhtran/timepickerandroidapi" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <h4 id="muc3_4"><b>ToastAndroid API</b></h4>
+      <p>ToastAndroid là một thành phần trong React Native được sử dụng để hiển thị thông báo tạm thời (toast) trên nền
+        tảng Android. Toast là một giao diện gợi ý ngắn gọn xuất hiện trong một khoảng thời gian ngắn để thông báo cho
+        người dùng về một tình huống cụ thể.</p>
+      <p>Phương thức quan trọng của API này là show(message, duration) hiển thị toast với nội dung message và thời gian
+        duration quy định thời gian tồn tại của toast. duration có các lựa chọn:</p>
+      <ul>
+        <li>ToastAndroid.SHORT: Thời gian hiển thị ngắn (bao gồm khoảng 2 giây).
+        <li>ToastAndroid.LONG: Thời gian hiển thị dài hơn (bao gồm khoảng 3.5 giây).
+      </ul>
+      <p>Ví dụ minh họa</p>
+      <div data-snack-id="@ngocminhtran/toastandroidapi" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+
+
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Bai02.html">Bài trước</a>
+          <a href="Bai04.html">Bài tiếp theo</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- End page content -->
+  </div>
+
+  <script src="https://www.jdoodle.com/assets/jdoodle-pym.min.js" type="text/javascript"></script>
+  <script>
+    // Script to open and close sidebar
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("myOverlay").style.display = "block";
+    }
+
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("myOverlay").style.display = "none";
+    }
+
+    // Phần button top
+    var mybutton = document.getElementById("myBtn");
+
+
+    window.onscroll = function () { scrollFunction() };
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
+
+
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+
+</body>
+
+</html>

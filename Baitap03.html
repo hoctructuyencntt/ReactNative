@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Bài tập: Làm quen React Native</title>
+<title>Bài tập Bài 3</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="w3.css">
@@ -139,18 +139,18 @@
       <!--<h4><b>Giáo trình</b></h4>-->
     </div>
     <div class="w3-bar-block">
-      <a href="Bai01.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding ">Bài 1: Làm quen
+      <a href="Bai01.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 1: Làm quen
         React
         Native</a>
-      <a href="Baitap01.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal">Bài tập Bài
-        1</a>
+      <a href="Baitap01.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài tập Bài 1</a>
       <a href="Bai02.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 2: Xây dựng
         giao diện ứng dụng với React Native</a>
       <a href="https://hoctructuyencntt.github.io/ReactNative/BTBai02.pdf" onclick="w3_close()"
         class="w3-bar-item w3-button w3-padding">Bài tập Bài 2</a>
       <a href="Bai03.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 3: Sử dụng các API
         (Application Programming Interface)</a>
-      <a href="Baitap03.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài tập Bài 3</a>
+      <a href="Baitap03.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal">Bài tập Bài
+        3</a>
       <a href="Bai04.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 4: Xây dựng một ứng dụng
         hoàn chỉnh với React Native</a>
       <a href="Baitap04.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài tập Bài 4</a>
@@ -172,31 +172,73 @@
           class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>-->
       <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()">=</span>
       <div class="w3-container">
-        <h1><b>Bài tập: Làm quen React Native</b></h1>
+        <h1><b>Bài tập Bài 3</b></h1>
         <div class="w3-section w3-bottombar"></div>
       </div>
     </header>
+
     <div class="w3-container w3-padding-large" style="margin-bottom:32px">
-      <p>Sử dụng Bai01_TH01 trên nền tảng <a href="https://expo.dev/">Expo.dev</a> sau:</p>
-      <div data-snack-id="@ngocminhtran/bai01_th01" data-snack-platform="web" data-snack-preview="true"
+
+      <h4><b>1. Đếm Số Ngày</b></h4>
+      <p>Tạo một ứng dụng React Native đơn giản cho phép người dùng nhập một ngày bất kỳ và hiển thị số ngày còn lại từ
+        ngày hiện tại đến ngày đã nhập.</p>
+      <p>Yêu cầu:</p>
+      <ul>
+        <li>Tạo một ứng dụng React Native mới.
+        <li>Sử dụng TextInput component để cho phép người dùng nhập ngày. Hãy sử dụng <a
+            href="https://reactnativepaper.com/">react-native-paper</a> hoặc
+          <a href="https://reactnativeelements.com/">react-native-elements</a> để làm cho TextInput trông đẹp hơn.
+        <li>Sử dụng Button component để cho phép người dùng bấm vào để tính số ngày còn lại.
+        <li>Khi người dùng bấm vào nút, sử dụng Date API (các hàm new Date(), getTime(), getTimezoneOffset()) để tính
+          toán
+          số ngày còn lại từ ngày hiện tại đến ngày đã nhập.
+        <li>Sử dụng Alert component hoặc Toast component để hiển thị kết quả cho người dùng.
+      </ul>
+      <p>Chương trình gợi ý bắt đầu (Là chương trình với các đoạn mã cơ bản và chưa hoàn chỉnh):</p>
+      <div data-snack-id="@ngocminhtran/dem-so-ngay" data-snack-platform="web" data-snack-preview="true"
         data-snack-theme="dark"
         style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
       </div>
       <script async src="https://snack.expo.dev/embed.js"></script>
-      <p>Tạo ra các component Main, Header, Footer và kết hợp chúng lại với nhau trong component Home bằng các cách:</p>
+      <h4><b>2. Quản lý Sổ Điểm Sinh Viên</b></h4>
+      <p>Tạo một ứng dụng React Native đơn giản để quản lý sổ điểm của sinh viên, cho phép người dùng thêm điểm môn học
+        và
+        tính điểm trung bình.</p>
+      <p>Yêu cầu:</p>
       <ul>
-        <li>Tạo các component Home, Main, Header, Footer trong cùng tập tin App.js. Xem <a
-            href="https://hoctructuyencntt.github.io/ReactNative/Huong%20dan%20Bai01_TH01.pdf">hướng dẫn</a>.
-        <li>Tạo các tập tin JS chứa các component Home, Main, Header và Footer. Kết hợp chúng trong tập tin App.js.
+        <li>Tạo một ứng dụng React Native mới.
+        <li>Sử dụng <a href="https://reactnative.dev/docs/flatlist">FlatList</a> component để hiển thị danh sách các môn
+          học và điểm số tương ứng.
+        <li>Cho phép người dùng thêm mới một môn học và điểm số. Sử dụng <a
+            href="https://reactnative.dev/docs/modal">Modal</a> component để tạo giao diện nhập thông
+          tin.
+        <li>Tính điểm trung bình của tất cả các môn học và hiển thị lên giao diện.
+        <li>Sử dụng AsyncStorage API để lưu trữ dữ liệu của sổ điểm và duy trì khi ứng dụng khởi động lại.
       </ul>
+      <p>Chương trình gợi ý bắt đầu (Là chương trình với các đoạn mã cơ bản và chưa hoàn chỉnh):</p>
+      <div data-snack-id="@ngocminhtran/so-diem-sinh-vien" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+      <h4><b>3. Đánh Giá Sản Phẩm</b></h4>
+      <p>Tạo một ứng dụng React Native cho phép người dùng xem danh sách sản phẩm và đánh giá chúng.</p>
+      <p>Yêu cầu:</p>
+      <ul>
+        <li>Tạo một ứng dụng React Native mới.
+        <li>Sử dụng FlatList component để hiển thị danh sách các sản phẩm.
+        <li>Cho phép người dùng đánh giá sản phẩm bằng cách chọn số sao (1 đến 5 sao) cho mỗi sản phẩm.
+        <li>Sử dụng AsyncStorage API để lưu trữ và duy trì dữ liệu đánh giá của sản phẩm sau khi ứng dụng khởi động lại.
+        <li>Hiển thị điểm đánh giá trung bình của từng sản phẩm.
+      </ul>
+      <p>Chương trình gợi ý bắt đầu (Là chương trình với các đoạn mã cơ bản và chưa hoàn chỉnh):</p>
+      <div data-snack-id="@ngocminhtran/danh-gia-san-pham" data-snack-platform="web" data-snack-preview="true"
+        data-snack-theme="dark"
+        style="overflow:hidden;background:#0C0D0E;border:1px solid var(--color-border);border-radius:4px;height:505px;width:100%">
+      </div>
+      <script async src="https://snack.expo.dev/embed.js"></script>
+
     </div>
-
-
-
-
-
-
-
   </div>
 
   <!-- End page content -->
